@@ -15,17 +15,17 @@
  	sb %piece, 0(t0)
 .end_macro
 
-.macro mv_down(%x,%y)
- 	load_piece(%x,%y)
-	store_piece(%x,%y,zero) 	
-	addi t3, %y, DOWN
-	store_piece(%x,t3,a0)
-.end_macro
-
 .macro mv_up(%x,%y)
  	load_piece(%x,%y)
 	store_piece(%x,%y,zero) 	
 	addi t3, %y, UP
+	store_piece(%x,t3,a0)
+.end_macro
+
+.macro mv_down(%x,%y)
+ 	load_piece(%x,%y)
+	store_piece(%x,%y,zero) 	
+	addi t3, %y, DOWN
 	store_piece(%x,t3,a0)
 .end_macro
 
@@ -45,18 +45,18 @@
 	store_piece(t2,t3,a0)
 .end_macro
 
-.macro mv_down_left(%x,%y)
-	load_piece(%x,%y)
-	store_piece(%x,%y,zero) 	
-	addi t3, %y, DOWN
-	addi t2, %x, LEFT
-	store_piece(t2,t3,a0)
-.end_macro
-
 .macro mv_down_right(%x,%y)
 	load_piece(%x,%y)
 	store_piece(%x,%y,zero) 	
 	addi t3, %y, DOWN
 	addi t2, %x, RIGHT
+	store_piece(t2,t3,a0)
+.end_macro
+
+.macro mv_down_left(%x,%y)
+	load_piece(%x,%y)
+	store_piece(%x,%y,zero) 	
+	addi t3, %y, DOWN
+	addi t2, %x, LEFT
 	store_piece(t2,t3,a0)
 .end_macro
