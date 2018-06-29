@@ -1,5 +1,9 @@
 
 .include "macros.s"
+.eqv DOWN	1
+.eqv UP		-1
+.eqv RIGHT	-1
+.eqv LEFT	1 
 
 .data
 # 0000: 
