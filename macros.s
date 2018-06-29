@@ -75,3 +75,19 @@
 	li t1, RIGHT
 	add a0, t1, t0
 .end_macro
+
+# params: a0(X axis), a1(Y axis)
+# Eats piece in specified direction
+.macro eat(%direction)
+	li a2, %direction
+	jal eat_y_axis
+.end_macro
+
+# params: a0(X axis), a1(Y axis)
+# Eats adjacent piece in specified direction
+# note: If Y is odd adjacent is to the left
+# if Y us even adjacent is to the right
+.macro eat_adj(%direction)
+	li a2, %direction
+	jal eat_x_axis
+.end_macro

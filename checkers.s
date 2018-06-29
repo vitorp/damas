@@ -57,33 +57,33 @@ linha7: .word 0x04040404
 	li a0, 2
 	li a1, 3
 	jal can_mv_down_left
+	
 	li a0, 2
 	li a1, 4
-	
-	jal eat_up
+	eat(UP)
 	li a0, 1
 	li a1, 3
-	jal eat_up
+	eat(UP)
 	li a0, 3
 	li a1, 1
-	jal eat_down
+	eat(DOWN)
 	li a0, 1
 	li a1, 0
-	jal eat_down
+	eat(DOWN)
 	
 	li a0, 1
 	li a1, 7
-	jal eat_x_up
+	eat_adj(UP)
 	li a0, 3
 	li a1, 6
-	jal eat_x_up
+	eat_adj(UP)
 	
 	li a0, 3
 	li a1, 0
-	jal eat_x_down
+	eat_adj(DOWN)
 	li a0, 0
 	li a1, 1
-	jal eat_x_down	
+	eat_adj(DOWN)
 	j exit
 
 .include "mv_piece.s"
