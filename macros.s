@@ -68,3 +68,10 @@
 	li t1, LEFT
 	sub a0, t1, t0
 .end_macro
+
+.macro odd_left_even_right(%y)
+	andi t0, %y, 0x01
+	slli t0, t0, 1
+	li t1, RIGHT
+	add a0, t1, t0
+.end_macro

@@ -41,6 +41,7 @@ linha7: .word 0x04040404
 	mv_down_left(s2,s3)
 	li s2,3
 	mv_down_right(s2,s3)
+	
 	li a0, 1
 	li a1, 7
 	jal can_mv_down
@@ -58,6 +59,7 @@ linha7: .word 0x04040404
 	jal can_mv_down_left
 	li a0, 2
 	li a1, 4
+	
 	jal eat_up
 	li a0, 1
 	li a1, 3
@@ -68,6 +70,20 @@ linha7: .word 0x04040404
 	li a0, 1
 	li a1, 0
 	jal eat_down
+	
+	li a0, 1
+	li a1, 7
+	jal eat_x_up
+	li a0, 3
+	li a1, 6
+	jal eat_x_up
+	
+	li a0, 3
+	li a1, 0
+	jal eat_x_down
+	li a0, 0
+	li a1, 1
+	jal eat_x_down	
 	j exit
 
 .include "mv_piece.s"
