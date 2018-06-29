@@ -10,11 +10,8 @@ eat_up:
 
 	mv s0, a0
 	mv s1, a1
-	# s2 = LEFT if even, s2 = RIGHT if odd
-	andi t0, a1, 0x01
-	slli t0, t0, 1
-	li t1, LEFT
-	sub s2, t1, t0
+	odd_right_even_left(a1)
+	mv s2, a0
 	
 	load_piece(s0,s1) # a0 = piece
 	# Clearing original space
