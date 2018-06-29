@@ -1,8 +1,32 @@
 .text
 # params: a0(X axis), a1(Y axis)
-# Eats up piece and delivers piece to UP RIGHT if Y is odd
-# or UP LEFT if Y is even
+# Eats piece upwards
 eat_up:
+	addi sp, sp, -4
+	sw ra, 0(sp)
+	li a2, UP
+	jal eat_y_axis
+	lw ra, 0(sp)
+	addi sp, sp, 4
+	ret
+
+# params: a0(X axis), a1(Y axis)
+# Eats piece downwards
+eat_down:
+	addi sp, sp, -4
+	sw ra, 0(sp)
+	li a2, DOWN
+	jal eat_y_axis
+	lw ra, 0(sp)
+	addi sp, sp, 4
+	ret
+# params: a0(X axis), a1(Y axis), a2 (UP || down)
+# Eats piece in (a0,a1+a2) 
+# if odd delivers piece in (a0,a1) to:
+# (a0 - 1,a1 +(2*a2)) 
+# if even deliver piece to:
+# (a0 + 1,a1 +(2*a2)) 
+eat_y_axis:
 	addi sp, sp, -12
 	sw s0, 0(sp)
 	sw s1, 4(sp)
@@ -17,10 +41,10 @@ eat_up:
 	# Clearing original space
 	store_piece(s0,s1,zero)
 	# Clearing eaten space
-	addi s1, s1, UP
+	add s1, s1, a2
 	store_piece(s0,s1,zero)
 	# Storing at destination
-	addi s1, s1, UP
+	add s1, s1, a2
 	add s0, s0, s2 # Goes left if even and right if odd
 	store_piece(s0,s1,a0)
 	

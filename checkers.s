@@ -62,6 +62,12 @@ linha7: .word 0x04040404
 	li a0, 1
 	li a1, 3
 	jal eat_up
+	li a0, 3
+	li a1, 1
+	jal eat_down
+	li a0, 1
+	li a1, 0
+	jal eat_down
 	j exit
 
 .include "mv_piece.s"

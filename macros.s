@@ -61,7 +61,7 @@
 	store_piece(t2,t3,a0)
 .end_macro
 
-# a0 = LEFT (1) if even, a0 = RIGHT (-1) if odd
+# a0 = LEFT (1) if Y is even, a0 = RIGHT (-1) if Y is odd
 .macro odd_right_even_left(%y)
 	andi t0, %y, 0x01
 	slli t0, t0, 1
