@@ -14,10 +14,10 @@
 # Vazio = 0x00
 base: .word 0x06060606
 linha1: .word 0x06060606
-linha2: .word 0x06060606
+linha2: .word 0x06050106
 linha3: .word 0x00000000
 linha4: .word 0x00000000
-linha5: .word 0x04040404
+linha5: .word 0x04040302
 linha6: .word 0x04040404
 linha7: .word 0x04040404
 .text 
@@ -30,3 +30,10 @@ linha7: .word 0x04040404
 	li s2, 1
 	li s3, 5
 	mv_up_left(s2,s3)
+	li s2, 2
+	mv_up_right(s2,s3)
+	li s2, 2
+	li s3, 2
+	mv_down_left(s2,s3)
+	li s2,3
+	mv_down_right(s2,s3)
