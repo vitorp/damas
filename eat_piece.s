@@ -71,6 +71,7 @@ eat_x_axis:
 # params: a0(X axis), a1(Y axis), a2 (UP || down) 
 # Checks if piece to be eaten is from a diferent team
 # and if the destination is empty
+# Assumes selected space is not empty
 can_eat_y_axis:
 	addi sp, sp, -28
 	sw s0, 0(sp)
@@ -119,6 +120,68 @@ can_eat_y_axis:
 	li a0, 1
 	
 	end_can_eat_y_axis:
+	lw s0, 0(sp)
+	lw s1, 4(sp)
+	lw s2, 8(sp)
+	lw s3, 12(sp)
+	lw s4, 16(sp)
+	lw s5, 20(sp)
+	lw ra, 24(sp)
+	addi sp, sp, 28
+	ret
+
+# params: a0(X axis), a1(Y axis), a2 (UP || down) 
+# Checks if piece to be eaten is from a diferent team
+# and if the destination is empty
+# Assumes selected space is not empty
+can_eat_x_axis:
+	addi sp, sp, -28
+	sw s0, 0(sp)
+	sw s1, 4(sp)
+	sw s2, 8(sp)
+	sw s3, 12(sp)
+	sw s4, 16(sp)
+	sw s5, 20(sp)
+	sw ra, 24(sp)
+	
+	mv s0, a0
+	mv s1, a1
+	mv s5, a2
+	odd_left_even_right(a1)
+	mv s2, a0
+	
+	# Comparing pieces teams
+	load_piece(s0,s1) 
+	mv s3, a0 # s3 = piece
+	add s1, s1, s5
+	add s0, s0, s2
+
+	mv a0, s0
+	mv a1, s1
+	jal in_board
+	beq a0, zero, can_eat_x_axis_fail # Checks if eaten piece is in board
+	load_piece(s0,s1)
+	mv s4, a0 # s4 = piece to be eaten
+	beq s4, zero, can_eat_x_axis_fail # checks if there is a piece
+	compare(s3,s4) # checks if pieces are from diferent teams
+	beq a0, zero, can_eat_x_axis_fail
+	
+	# Checking if destination is empty
+	add s1, s1, s5
+	mv a0, s0
+	mv a1, s1
+	jal in_board
+	beq a0, zero, can_eat_x_axis_fail # Checks if destination is in board
+	load_piece(s0, s1)
+	beq a0, zero, can_eat_x_axis_succ
+
+	can_eat_x_axis_fail:
+	li a0, 0
+	j end_can_eat_x_axis
+	can_eat_x_axis_succ:
+	li a0, 1
+	
+	end_can_eat_x_axis:
 	lw s0, 0(sp)
 	lw s1, 4(sp)
 	lw s2, 8(sp)

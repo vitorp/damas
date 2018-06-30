@@ -99,6 +99,10 @@
 	jal eat_x_axis
 .end_macro
 
+.macro can_eat_adj(%direction)
+	li a2, %direction
+	jal can_eat_x_axis
+.end_macro
 # params: piece1 reg, piece2 reg
 # Returns a0 = piece1 != piece2
 .macro compare(%piece1, %piece2)

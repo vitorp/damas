@@ -22,10 +22,10 @@
 .data
 base:   .word 0x06060606
 linha1: .word 0x06060606
-linha2: .word 0x06050106
+linha2: .word 0x06060606
 linha3: .word 0x00000000
 linha4: .word 0x00000000
-linha5: .word 0x04040302
+linha5: .word 0x04040404
 linha6: .word 0x04040404
 linha7: .word 0x04040404
 .text 
@@ -98,6 +98,11 @@ linha7: .word 0x04040404
 	li a0, 0
 	li a1, 0
 	can_eat(DOWN)
+	li a0, 2
+	li a1, 4
+	can_eat_adj(UP)
+	li a0, 0
+	li a1, 1
 	j exit
 
 .include "mv_piece.s"
