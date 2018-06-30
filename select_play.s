@@ -1,6 +1,7 @@
 .text
 
 # Params: a0(X Axis), a1 (Y Axis)
+# Returns: a0( Number of options available )
 load_play_options:
 	addi sp, sp, -16
 	sw s0, 0(sp)
@@ -42,7 +43,7 @@ load_play_options:
 	jal check_play_option
 	add s2, s2, a0
 	
-	j select_play_options
+	j end_play_options
 
 	black_options:
 	mv a0, s0
@@ -69,13 +70,22 @@ load_play_options:
 	jal check_play_option
 	add s2, s2, a0
 	
-	select_play_options:
 	end_play_options:
+	slli t0, s2, 2 # Calculate array pos
+	addi s2, s2, 1
+	la t1, play_options
+	add t1, t1, t0
+	la t2, reselect_piece
+	sw t2, 0(t1)
+	
+	
 	lw s0, 0(sp)
 	lw s1, 4(sp)
 	lw s2, 8(sp)
 	lw ra, 12(sp)
 	addi sp, sp, 16
+	
+	mv a0, s2
 	ret
 
 # Params: a0(X Axis), a1 (Y Axis)
@@ -103,6 +113,8 @@ play_mv_down_left:
 	mv_down_left(a0,a1)
 	ret
 
+reselect_piece:
+	ret
 # Params: a0(X Axis), a1 (Y Axis), a2(Check Option label), a3(Option label), a4(Options counter)
 check_play_option:
 	addi sp, sp , -4

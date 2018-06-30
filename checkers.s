@@ -102,8 +102,8 @@ play_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 	li a0, 2
 	li a1, 4
 	can_eat_adj(UP)
-	li a0, 2
-	li a1, 0
+	li a0, 0
+	li a1, 1
 	jal load_play_options
 	j exit
 
