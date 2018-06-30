@@ -110,3 +110,4 @@
 	andi t0, t0, 0x02
 	srl a0, t0, t1
 .end_macro
+

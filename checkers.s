@@ -28,6 +28,7 @@ linha4: .word 0x00000000
 linha5: .word 0x04040404
 linha6: .word 0x04040404
 linha7: .word 0x04040404
+play_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 .text 
 	li s2, 1
 	li s3, 2
@@ -101,10 +102,12 @@ linha7: .word 0x04040404
 	li a0, 2
 	li a1, 4
 	can_eat_adj(UP)
-	li a0, 0
-	li a1, 1
+	li a0, 2
+	li a1, 0
+	jal load_play_options
 	j exit
 
 .include "mv_piece.s"
 .include "eat_piece.s"
+.include "select_play.s"
 exit:
