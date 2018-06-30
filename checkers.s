@@ -4,8 +4,10 @@
 .eqv UP		-1
 .eqv RIGHT	-1
 .eqv LEFT	1 
+.eqv WHITE	0x04
+.eqv BLACK	0x06
+.eqv EMPTY	0x00 
 
-.data
 # 0000: 
 # bit[3] = inutilizado
 # bit[2] = peça existente
@@ -16,6 +18,8 @@
 # Dama Branca = 0x05
 # Dama Preta = 0x07
 # Vazio = 0x00
+
+.data
 base:   .word 0x06060606
 linha1: .word 0x06060606
 linha2: .word 0x06050106
@@ -84,6 +88,16 @@ linha7: .word 0x04040404
 	li a0, 0
 	li a1, 1
 	eat_adj(DOWN)
+	li a0, 2
+	li a1, 4
+	can_eat(UP)
+	li s0, 0
+	li s1, 1
+	li s2, WHITE
+	store_piece(s0,s1,s2)
+	li a0, 0
+	li a1, 0
+	can_eat(DOWN)
 	j exit
 
 .include "mv_piece.s"
