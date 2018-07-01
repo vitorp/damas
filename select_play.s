@@ -88,6 +88,7 @@ load_play_options:
 	ret
 
 # Params: a0(Options count)
+# Returns: a0 (Option address)
 choose_option:
 	addi sp, sp, -16
 	sw s0, 0(sp)
@@ -119,17 +120,17 @@ choose_option:
 	
 	read_option:
 	li a7, 5
-	ecall
+	ecall # Reading option
 	slli t0, a0, 2
 	add t0, s2, t0
-	lw t1, 0(t0)
-	jalr t1, 0 # Execute option
+	lw a0, 0(t0)
 	
 	lw s0, 0(sp)
 	lw s1, 4(sp)
 	lw s2, 8(sp)
 	lw ra, 12(sp)
 	addi sp, sp, 16
+	ret
 
 # Params: a0(X Axis), a1 (Y Axis)
 play_mv_up:
