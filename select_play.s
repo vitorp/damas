@@ -1,7 +1,7 @@
 .text
 
 # Params: a0(X Axis), a1 (Y Axis)
-# Returns: a0( Number of options available )
+# Returns: a0( Options count )
 load_play_options:
 	addi sp, sp, -16
 	sw s0, 0(sp)
@@ -78,15 +78,58 @@ load_play_options:
 	la t2, reselect_piece
 	sw t2, 0(t1)
 	
+	mv a0, s2
 	
 	lw s0, 0(sp)
 	lw s1, 4(sp)
 	lw s2, 8(sp)
 	lw ra, 12(sp)
 	addi sp, sp, 16
-	
-	mv a0, s2
 	ret
+
+# Params: a0(Options count)
+choose_option:
+	addi sp, sp, -16
+	sw s0, 0(sp)
+	sw s1, 4(sp)
+	sw s2, 8(sp)
+	sw ra, 12(sp)
+	
+	mv s0, a0 # s0= options count
+	mv s1, zero # s1 = counter
+	la s2, play_options
+
+	print_option_loop:
+	beq s1, s0, read_option
+	
+	# Print option index
+	li a7, 1
+	mv a0, s1
+	ecall
+
+	
+	slli t1, s1, 2 # Option index
+	add t0, s2, t1 # Option full address
+	lw a0, 0(t0)
+	jal option_text_addr # a0 = text addr
+	li a7, 4
+	ecall # Print option text
+	addi s1, s1 ,1
+	j print_option_loop
+	
+	read_option:
+	li a7, 5
+	ecall
+	slli t0, a0, 2
+	add t0, s2, t0
+	lw t1, 0(t0)
+	jalr t1, 0 # Execute option
+	
+	lw s0, 0(sp)
+	lw s1, 4(sp)
+	lw s2, 8(sp)
+	lw ra, 12(sp)
+	addi sp, sp, 16
 
 # Params: a0(X Axis), a1 (Y Axis)
 play_mv_up:
@@ -116,6 +159,8 @@ play_mv_down_left:
 reselect_piece:
 	ret
 # Params: a0(X Axis), a1 (Y Axis), a2(Check Option label), a3(Option label), a4(Options counter)
+# returns: a0 = 1 if option is added
+#          a0 = 0 if option skipped
 check_play_option:
 	addi sp, sp , -4
 	sw ra, 0(sp)
@@ -127,12 +172,60 @@ check_play_option:
 	la t1, play_options
 	add t1, t1, t0
 	sw a3, 0(t1)
-	addi a0, a4, 1
+	li a0, 1
 	j end_check_play_option
 	
 	skip_option:
-	mv a0, a4
+	li a0, 0
 	end_check_play_option:
 	lw ra, 0(sp)
 	addi sp, sp, 4
+	ret
+
+# Params: a0(Option address)
+# Return: a0 (Option text adress)
+option_text_addr:
+	la t0, play_mv_up
+	bne a0, t0, not_mv_up
+	la a0, mv_up_text
+	ret
+	not_mv_up:
+	
+	la t0, play_mv_up_right
+	bne a0, t0, not_mv_up_right
+	la a0, mv_up_right_text
+	ret
+	not_mv_up_right:
+	
+	la t0, play_mv_up_left
+	bne a0, t0, not_mv_up_left
+	la a0, mv_up_left_text
+	ret
+	not_mv_up_left:
+	
+	la t0, play_mv_down
+	bne a0, t0, not_mv_down
+	la a0, mv_down_text
+	ret
+	not_mv_down:
+	
+	la t0, play_mv_down_right
+	bne a0, t0, not_mv_down_right
+	la a0, mv_down_right_text
+	ret
+	not_mv_down_right:
+	
+	la t0, play_mv_down_left
+	bne a0, t0, not_mv_down_left
+	la a0, mv_down_left_text
+	ret
+	not_mv_down_left:
+	
+	la t0, reselect_piece
+	bne a0, t0, not_reselect_piece
+	la a0, reselect_piece_text
+	ret
+	not_reselect_piece:
+	
+	la a0, error_text
 	ret

@@ -28,6 +28,15 @@ linha4: .word 0x00000000
 linha5: .word 0x04040404
 linha6: .word 0x04040404
 linha7: .word 0x04040404
+mv_up_text: .asciz " - Mover para cima\n"
+mv_up_right_text: .asciz " - Mover para cima direita\n"
+mv_up_left_text: .asciz " - Mover para cima esquerda\n"
+mv_down_text: .asciz " - Mover para Baixo\n"
+mv_down_right_text: .asciz " - Mover para baixo direito\n"
+mv_down_left_text: .asciz " - Mover para baixo esquerda\n"
+reselect_piece_text: .asciz " - Escolher outra peca\n"
+error_text: .asciz " - Error\n"
+.align 2
 play_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 .text 
 	li s2, 1
@@ -103,8 +112,9 @@ play_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 	li a1, 4
 	can_eat_adj(UP)
 	li a0, 0
-	li a1, 1
+	li a1, 0
 	jal load_play_options
+	jal choose_option
 	j exit
 
 .include "mv_piece.s"
