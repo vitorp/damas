@@ -132,29 +132,39 @@ choose_option:
 	addi sp, sp, 16
 	ret
 
-# Params: a0(X Axis), a1 (Y Axis)
+# Params: a0 (Options Adress), a1(X Axis), a2 (Y Axis)
+execute_option:
+	addi sp, sp, -4
+	sw ra, 0(sp)
+	
+	jalr a0, 0 # Execute option
+	
+	lw ra, 0(sp)
+	addi sp, sp, 4
+	ret
+# Params: a1(X Axis), a2 (Y Axis)
 play_mv_up:
-	mv_up(a0,a1)
+	mv_up(a1,a2)
 	ret
-# Params: a0(X Axis), a1 (Y Axis)
+# Params: a1(X Axis), a2 (Y Axis)
 play_mv_up_right:
-	mv_up_right(a0,a1)
+	mv_up_right(a1,a2)
 	ret
-# Params: a0(X Axis), a1 (Y Axis)
+# Params: a1(X Axis), a2 (Y Axis)
 play_mv_up_left:
-	mv_up_left(a0,a1)
+	mv_up_left(a1,a2)
 	ret
-# Params: a0(X Axis), a1 (Y Axis)
+# Params: a1(X Axis), a2 (Y Axis)
 play_mv_down:
-	mv_down(a0,a1)
+	mv_down(a1,a2)
 	ret
-# Params: a0(X Axis), a1 (Y Axis)
+# Params: a1(X Axis), a2 (Y Axis)
 play_mv_down_right:
-	mv_down_right(a0,a1)
+	mv_down_right(a1,a2)
 	ret
-# Params: a0(X Axis), a1 (Y Axis)
+# Params: a1(X Axis), a2 (Y Axis)
 play_mv_down_left:
-	mv_down_left(a0,a1)
+	mv_down_left(a1,a2)
 	ret
 
 reselect_piece:

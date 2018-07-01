@@ -1,4 +1,4 @@
-# Macros params can't be t0 - t3
+# Macros params can't be t0 - t3, a0
 .macro load_piece(%x,%y)
 	slli t0, %y, 2
 	la t1, base # Loads base adress
