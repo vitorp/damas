@@ -168,7 +168,8 @@ play_mv_down_left:
 	ret
 
 reselect_piece:
-	ret
+	j turn_loop
+
 # Params: a0(X Axis), a1 (Y Axis), a2(Check Option label), a3(Option label), a4(Options counter)
 # returns: a0 = 1 if option is added
 #          a0 = 0 if option skipped
@@ -239,4 +240,40 @@ option_text_addr:
 	not_reselect_piece:
 	
 	la a0, error_text
+	ret
+
+# Params: No params
+# Return: a0 (X Axis), a1(Y Axis)
+# Reads user input for X and Y piece coordenates
+select_piece:
+	addi sp, sp, -12
+	sw ra, 0(sp)
+	sw s0, 4(sp)
+	sw s1, 8(sp)
+	reset_select_piece:
+	print_string(piece_x)
+	li a7, 5
+	ecall # Piece X Axis
+	mv s0, a0
+	
+	print_string(piece_y)
+	li a7, 5
+	ecall # Piece Y Axis
+	mv s1, a0
+	
+	mv a0, s0
+	mv a1, s1
+	jal in_board
+	bne a0, zero, select_piece_succ
+	
+	print_string(invalid_x_y)
+	j reset_select_piece
+
+	select_piece_succ:
+	mv a0, s0
+	mv a1, s1
+	lw ra, 0(sp)
+	lw s0, 4(sp)
+	lw s1, 8(sp)
+	addi sp, sp, 12
 	ret

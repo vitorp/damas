@@ -111,3 +111,9 @@
 	srl a0, t0, t1
 .end_macro
 
+.macro print_string(%label)
+	la a0, %label
+	li a7, 4
+	ecall
+.end_macro
+

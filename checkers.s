@@ -28,6 +28,9 @@ linha4: .word 0x00000000
 linha5: .word 0x04040404
 linha6: .word 0x04040404
 linha7: .word 0x04040404
+piece_x: .asciz "Digite a coordenada X da peça:\n"
+piece_y: .asciz "Digite a coordenada Y da peça:\n"
+invalid_x_y:  .asciz "Coordenadas invalidas. Reselecione a peca.\n"
 mv_up_text: .asciz " - Mover para cima\n"
 mv_up_right_text: .asciz " - Mover para cima direita\n"
 mv_up_left_text: .asciz " - Mover para cima esquerda\n"
@@ -111,8 +114,11 @@ play_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 	li a0, 2
 	li a1, 4
 	can_eat_adj(UP)
-	li s0, 1
-	li s1, 4
+	
+	turn_loop:
+	jal select_piece
+	mv s0, a0
+	mv s1, a1
 	mv a0, s0
 	mv a1, s1
 	jal load_play_options
@@ -120,7 +126,7 @@ play_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 	mv a1, s0
 	mv a2, s1
 	jal execute_option
-	j exit
+	j turn_loop
 
 .include "mv_piece.s"
 .include "eat_piece.s"
