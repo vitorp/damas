@@ -28,9 +28,11 @@ linha4: .word 0x00000000
 linha5: .word 0x04040404
 linha6: .word 0x04040404
 linha7: .word 0x04040404
+
 piece_x: .asciz "Digite a coordenada X da peça:\n"
 piece_y: .asciz "Digite a coordenada Y da peça:\n"
 invalid_x_y:  .asciz "Coordenadas invalidas. Reselecione a peca.\n"
+invalid_option: .asciz "Opcao invalida.\n"
 mv_up_text: .asciz " - Mover para cima\n"
 mv_up_right_text: .asciz " - Mover para cima direita\n"
 mv_up_left_text: .asciz " - Mover para cima esquerda\n"

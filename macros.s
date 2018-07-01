@@ -111,9 +111,26 @@
 	srl a0, t0, t1
 .end_macro
 
+.macro print_string_reg(%reg)
+	mv a0, %reg
+	li a7, 4
+	ecall
+.end_macro
+
 .macro print_string(%label)
 	la a0, %label
 	li a7, 4
+	ecall
+.end_macro
+
+.macro read_int()
+	li a7, 5
+	ecall
+.end_macro
+
+.macro print_int(%int)
+	mv a0, %int
+	li a7, 1
 	ecall
 .end_macro
 

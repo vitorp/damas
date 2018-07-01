@@ -99,28 +99,35 @@ choose_option:
 	mv s0, a0 # s0= options count
 	mv s1, zero # s1 = counter
 	la s2, play_options
+	j print_option_loop
+	
+	read_option_invalid:
+	print_string(invalid_option)
+	mv s1, zero
 
 	print_option_loop:
 	beq s1, s0, read_option
 	
 	# Print option index
-	li a7, 1
-	mv a0, s1
-	ecall
+	print_int(s1)
 
 	
 	slli t1, s1, 2 # Option index
 	add t0, s2, t1 # Option full address
 	lw a0, 0(t0)
 	jal option_text_addr # a0 = text addr
-	li a7, 4
-	ecall # Print option text
+	print_string_reg(a0) # Print option text
+	
 	addi s1, s1 ,1
 	j print_option_loop
 	
+	
 	read_option:
-	li a7, 5
-	ecall # Reading option
+	read_int()
+	blt a0, zero, read_option_invalid
+	addi t0, s0, -1
+	bgt a0, t0, read_option_invalid
+	
 	slli t0, a0, 2
 	add t0, s2, t0
 	lw a0, 0(t0)
@@ -168,6 +175,7 @@ play_mv_down_left:
 	ret
 
 reselect_piece:
+	addi sp, sp, 4 # Free ra stacked in execute_option
 	j turn_loop
 
 # Params: a0(X Axis), a1 (Y Axis), a2(Check Option label), a3(Option label), a4(Options counter)
@@ -252,13 +260,12 @@ select_piece:
 	sw s1, 8(sp)
 	reset_select_piece:
 	print_string(piece_x)
-	li a7, 5
-	ecall # Piece X Axis
+	read_int() # Piece X Axis
 	mv s0, a0
 	
 	print_string(piece_y)
-	li a7, 5
-	ecall # Piece Y Axis
+	read_int() # Piece Y Axis
+	
 	mv s1, a0
 	
 	mv a0, s0
