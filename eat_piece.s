@@ -196,9 +196,10 @@ can_eat_x_axis:
 # Returns a0 = 1 if in board
 # and a0 = 0 if out of board
 in_board:
-	li t0, 7
+	li t0, 3
 	blt a0, zero, in_board_fail
 	bgt a0, t0, in_board_fail
+	li t0, 7
 	blt a1, zero, in_board_fail
 	bgt a1, t0, in_board_fail
 	in_board_succ:

@@ -254,10 +254,11 @@ option_text_addr:
 # Return: a0 (X Axis), a1(Y Axis)
 # Reads user input for X and Y piece coordenates
 select_piece:
-	addi sp, sp, -12
+	addi sp, sp, -16
 	sw ra, 0(sp)
 	sw s0, 4(sp)
 	sw s1, 8(sp)
+	sw s2, 12(sp)
 	reset_select_piece:
 	print_string(piece_x)
 	read_int() # Piece X Axis
@@ -270,17 +271,68 @@ select_piece:
 	
 	mv a0, s0
 	mv a1, s1
-	jal in_board
-	bne a0, zero, select_piece_succ
-	
+	jal in_board_human
+	bne a0, zero, piece_in_board
 	print_string(invalid_x_y)
 	j reset_select_piece
-
-	select_piece_succ:
+	
+	piece_in_board:
 	mv a0, s0
+	mv a1, s1
+	jal valid_space
+	bne a0, zero, select_piece_succ
+	print_string(invalid_x_y)
+	j reset_select_piece
+	
+	# Here we know space is valid so we translate X to the right index
+	# 0 || 1 = 0
+	# 2 || 3 = 1
+	# 4 || 5 = 2
+	# 6 || 7 = 3
+	select_piece_succ:
+	mv s2, zero
+	li t0, 2
+	blt s0, t0, end_select_piece
+	addi s2, s2, 1
+	li t0, 4
+	blt s0, t0, end_select_piece
+	addi s2, s2, 1
+	li t0, 6
+	blt s0, t0, end_select_piece
+	addi s2, s2, 1
+
+	end_select_piece:
+	mv a0, s2
 	mv a1, s1
 	lw ra, 0(sp)
 	lw s0, 4(sp)
 	lw s1, 8(sp)
-	addi sp, sp, 12
+	lw s2, 12(sp)
+	addi sp, sp, 16
+	ret
+
+# params: a0(X Axis), a1(Y Axis)
+# Returns a0 = 1 if in board
+# and a0 = 0 if out of board
+in_board_human:
+	li t0, 7
+	blt a0, zero, in_board_human_fail
+	bgt a0, t0, in_board_human_fail
+	blt a1, zero, in_board_human_fail
+	bgt a1, t0, in_board_human_fail
+	in_board_human_succ:
+	li a0, 1
+	j end_in_board
+	in_board_human_fail:
+	li a0, 0
+	end_in_board_human:
+	ret
+
+# params: a0(X Axis), a1(Y Axis)
+# Returns a0 = 1 if valid space
+# and a0 = 0 if invalid space
+valid_space:
+	andi t0, a0, 0x01
+	andi t1, a1, 0x01
+	xor a0, t0, t1
 	ret
