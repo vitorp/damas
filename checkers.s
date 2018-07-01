@@ -33,6 +33,7 @@ piece_x: .asciz "Digite a coordenada X da peça:\n"
 piece_y: .asciz "Digite a coordenada Y da peça:\n"
 invalid_x_y:  .asciz "Coordenadas invalidas. Reselecione a peca.\n"
 invalid_option: .asciz "Opcao invalida.\n"
+invalid_piece: .asciz "Peca sem movimentos validos, selecione outra peca.\n"
 mv_up_text: .asciz " - Mover para cima\n"
 mv_up_right_text: .asciz " - Mover para cima direita\n"
 mv_up_left_text: .asciz " - Mover para cima esquerda\n"
@@ -124,6 +125,13 @@ play_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 	mv a0, s0
 	mv a1, s1
 	jal load_play_options
+	
+	li t0, 1
+	bgt a0, t0, movable_piece
+	print_string(invalid_piece)
+	j turn_loop
+	
+	movable_piece:
 	jal choose_option
 	mv a1, s0
 	mv a2, s1
