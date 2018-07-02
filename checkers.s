@@ -37,11 +37,11 @@ unmovable_piece: .asciz "Peca sem movimentos validos, selecione outra peca.\n"
 invalid_piece: .asciz "Peca selecionada invalida, selecione outra peca.\n"
 
 mv_up_text: .asciz " - Mover para cima\n"
-mv_up_right_text: .asciz " - Mover para cima direita\n"
-mv_up_left_text: .asciz " - Mover para cima esquerda\n"
+mv_up_right_text: .asciz " - Mover para cima esquerda\n"
+mv_up_left_text: .asciz " - Mover para cima direita\n"
 mv_down_text: .asciz " - Mover para Baixo\n"
-mv_down_right_text: .asciz " - Mover para baixo direito\n"
-mv_down_left_text: .asciz " - Mover para baixo esquerda\n"
+mv_down_right_text: .asciz " - Mover para baixo esquerda\n"
+mv_down_left_text: .asciz " - Mover para baixo direita\n"
 reselect_piece_text: .asciz " - Escolher outra peca\n"
 error_text: .asciz " - Error\n"
 
@@ -55,6 +55,7 @@ play_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 	mv s0, zero
 	mv s1, zero
 	li s2, 8
+	j draw_loop
 	finish_row:
 	addi s1, s1, 1
 	print_string(brk)
@@ -106,6 +107,7 @@ play_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 	j turn_loop
 	
 	movable_piece:
+	mv a1, s1
 	jal choose_option
 	mv a1, s0
 	mv a2, s1

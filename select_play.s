@@ -87,18 +87,20 @@ load_play_options:
 	addi sp, sp, 16
 	ret
 
-# Params: a0(Options count)
+# Params: a0(Options count), a1 (Y axis)
 # Returns: a0 (Option address)
 choose_option:
-	addi sp, sp, -16
+	addi sp, sp, -20
 	sw s0, 0(sp)
 	sw s1, 4(sp)
 	sw s2, 8(sp)
 	sw ra, 12(sp)
+	sw s3, 16(sp)
 	
 	mv s0, a0 # s0= options count
 	mv s1, zero # s1 = counter
 	la s2, play_options
+	mv s3, a1
 	j print_option_loop
 	
 	read_option_invalid:
@@ -115,6 +117,7 @@ choose_option:
 	slli t1, s1, 2 # Option index
 	add t0, s2, t1 # Option full address
 	lw a0, 0(t0)
+	mv a1, s3
 	jal option_text_addr # a0 = text addr
 	print_string_reg(a0) # Print option text
 	
@@ -136,7 +139,8 @@ choose_option:
 	lw s1, 4(sp)
 	lw s2, 8(sp)
 	lw ra, 12(sp)
-	addi sp, sp, 16
+	lw s3, 16(sp)
+	addi sp, sp, 20
 	ret
 
 # Params: a0 (Options Adress), a1(X Axis), a2 (Y Axis)
@@ -178,52 +182,67 @@ check_play_option:
 	addi sp, sp, 4
 	ret
 
-# Params: a0(Option address)
+# Params: a0(Option address), a1 (Y Axis)
 # Return: a0 (Option text adress)
 option_text_addr:
+	addi sp, sp, -4
+	sw s0, 0(sp)
+	
+	mv s0, a1 # s0 = Y Axis
+
 	la t0, mv_up
 	bne a0, t0, not_mv_up
-	la a0, mv_up_text
-	ret
+	andi t1, s0, 0x01
+	beq t1, zero, mv_up_even_row
+	la a0, mv_up_right_text
+	j end_option_text_addr
+	mv_up_even_row:
+	la a0, mv_up_left_text
+	j end_option_text_addr
 	not_mv_up:
 	
 	la t0, mv_up_right
 	bne a0, t0, not_mv_up_right
 	la a0, mv_up_right_text
-	ret
+	j end_option_text_addr
 	not_mv_up_right:
 	
 	la t0, mv_up_left
 	bne a0, t0, not_mv_up_left
 	la a0, mv_up_left_text
-	ret
+	j end_option_text_addr
 	not_mv_up_left:
 	
 	la t0, mv_down
 	bne a0, t0, not_mv_down
 	la a0, mv_down_text
-	ret
+	j end_option_text_addr
 	not_mv_down:
 	
 	la t0, mv_down_right
 	bne a0, t0, not_mv_down_right
 	la a0, mv_down_right_text
-	ret
+	j end_option_text_addr
 	not_mv_down_right:
 	
 	la t0, mv_down_left
 	bne a0, t0, not_mv_down_left
 	la a0, mv_down_left_text
-	ret
+	j end_option_text_addr
 	not_mv_down_left:
 	
 	la t0, reselect_piece
 	bne a0, t0, not_reselect_piece
 	la a0, reselect_piece_text
-	ret
+	j end_option_text_addr
 	not_reselect_piece:
 	
 	la a0, error_text
+	
+	end_option_text_addr:
+	
+	lw s0, 0(sp)
+	addi sp, sp, 4
 	ret
 
 # Params: No params
