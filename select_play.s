@@ -152,7 +152,7 @@ execute_option:
 
 reselect_piece:
 	addi sp, sp, 4 # Free ra stacked in execute_option
-	j turn_loop
+	j turn_draw
 
 # Params: a0(X Axis), a1 (Y Axis), a2(Check Option label), a3(Option label), a4(Options counter)
 # returns: a0 = 1 if option is added
@@ -308,7 +308,8 @@ in_board_human:
 # Returns a0 = 1 if valid space
 # and a0 = 0 if invalid space
 valid_space:
-	andi t0, a0, 0x01
+	addi t0, a0, 1
+	andi t0, t0, 0x01
 	andi t1, a1, 0x01
 	xor a0, t0, t1
 	ret
