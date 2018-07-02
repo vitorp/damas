@@ -1,4 +1,52 @@
 .text
+# Params: a1(X Axis), a2 (Y Axis)
+mv_up:
+	load_piece(a1,a2)
+	store_piece(a1,a2,zero) 	
+	addi t3, a2, UP
+	store_piece(a1,t3,a0)
+	ret
+# Params: a1(X Axis), a2 (Y Axis)
+mv_up_right:
+	load_piece(a1,a2)
+	store_piece(a1,a2,zero) 	
+	addi t3, a2, UP
+	addi t2, a1, RIGHT
+	store_piece(t2,t3,a0)
+	ret
+# Params: a1(X Axis), a2 (Y Axis)
+mv_up_left:
+	load_piece(a1,a2)
+	store_piece(a1,a2,zero) 	
+	addi t3, a2, UP
+	addi t2, a1, LEFT
+	store_piece(t2,t3,a0)
+	ret
+# Params: a1(X Axis), a2 (Y Axis)
+mv_down:
+	load_piece(a1,a2)
+	store_piece(a1,a2,zero) 	
+	addi t3, a2, DOWN
+	store_piece(a1,t3,a0)
+	ret
+# Params: a1(X Axis), a2 (Y Axis)
+mv_down_right:
+	load_piece(a1,a2)
+	store_piece(a1,a2,zero) 	
+	addi t3, a2, DOWN
+	addi t2, a1, RIGHT
+	store_piece(t2,t3,a0)
+	ret
+
+# Params: a1(X Axis), a2 (Y Axis)
+mv_down_left:
+	load_piece(a1,a2)
+	store_piece(a1,a2,zero) 	
+	addi t3, a2, DOWN
+	addi t2, a1, LEFT
+	store_piece(t2,t3,a0)
+	ret
+
 # params: a0(X axis), a1(Y axis)
 # return: a0 = 1 if true, a0 = 0 if false
 can_mv_up:

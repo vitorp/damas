@@ -22,7 +22,7 @@ load_play_options:
 	mv a0, s0
 	mv a1, s1
 	la a2, can_mv_up
-	la a3, play_mv_up
+	la a3, mv_up
 	mv a4, s2
 	jal check_play_option
 	add s2, s2, a0
@@ -30,7 +30,7 @@ load_play_options:
 	mv a0, s0
 	mv a1, s1
 	la a2, can_mv_up_right
-	la a3, play_mv_up_right
+	la a3, mv_up_right
 	mv a4, s2
 	jal check_play_option
 	add s2, s2, a0
@@ -38,7 +38,7 @@ load_play_options:
 	mv a0, s0
 	mv a1, s1
 	la a2, can_mv_up_left
-	la a3, play_mv_up_left
+	la a3, mv_up_left
 	mv a4, s2
 	jal check_play_option
 	add s2, s2, a0
@@ -49,7 +49,7 @@ load_play_options:
 	mv a0, s0
 	mv a1, s1
 	la a2, can_mv_down
-	la a3, play_mv_down
+	la a3, mv_down
 	mv a4, s2
 	jal check_play_option
 	add s2, s2, a0
@@ -57,7 +57,7 @@ load_play_options:
 	mv a0, s0
 	mv a1, s1
 	la a2, can_mv_down_right
-	la a3, play_mv_down_right
+	la a3, mv_down_right
 	mv a4, s2
 	jal check_play_option
 	add s2, s2, a0
@@ -65,7 +65,7 @@ load_play_options:
 	mv a0, s0
 	mv a1, s1
 	la a2, can_mv_down_left
-	la a3, play_mv_down_left
+	la a3, mv_down_left
 	mv a4, s2
 	jal check_play_option
 	add s2, s2, a0
@@ -149,30 +149,6 @@ execute_option:
 	lw ra, 0(sp)
 	addi sp, sp, 4
 	ret
-# Params: a1(X Axis), a2 (Y Axis)
-play_mv_up:
-	mv_up(a1,a2)
-	ret
-# Params: a1(X Axis), a2 (Y Axis)
-play_mv_up_right:
-	mv_up_right(a1,a2)
-	ret
-# Params: a1(X Axis), a2 (Y Axis)
-play_mv_up_left:
-	mv_up_left(a1,a2)
-	ret
-# Params: a1(X Axis), a2 (Y Axis)
-play_mv_down:
-	mv_down(a1,a2)
-	ret
-# Params: a1(X Axis), a2 (Y Axis)
-play_mv_down_right:
-	mv_down_right(a1,a2)
-	ret
-# Params: a1(X Axis), a2 (Y Axis)
-play_mv_down_left:
-	mv_down_left(a1,a2)
-	ret
 
 reselect_piece:
 	addi sp, sp, 4 # Free ra stacked in execute_option
@@ -205,37 +181,37 @@ check_play_option:
 # Params: a0(Option address)
 # Return: a0 (Option text adress)
 option_text_addr:
-	la t0, play_mv_up
+	la t0, mv_up
 	bne a0, t0, not_mv_up
 	la a0, mv_up_text
 	ret
 	not_mv_up:
 	
-	la t0, play_mv_up_right
+	la t0, mv_up_right
 	bne a0, t0, not_mv_up_right
 	la a0, mv_up_right_text
 	ret
 	not_mv_up_right:
 	
-	la t0, play_mv_up_left
+	la t0, mv_up_left
 	bne a0, t0, not_mv_up_left
 	la a0, mv_up_left_text
 	ret
 	not_mv_up_left:
 	
-	la t0, play_mv_down
+	la t0, mv_down
 	bne a0, t0, not_mv_down
 	la a0, mv_down_text
 	ret
 	not_mv_down:
 	
-	la t0, play_mv_down_right
+	la t0, mv_down_right
 	bne a0, t0, not_mv_down_right
 	la a0, mv_down_right_text
 	ret
 	not_mv_down_right:
 	
-	la t0, play_mv_down_left
+	la t0, mv_down_left
 	bne a0, t0, not_mv_down_left
 	la a0, mv_down_left_text
 	ret

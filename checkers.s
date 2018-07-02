@@ -46,84 +46,12 @@ reselect_piece_text: .asciz " - Escolher outra peca\n"
 error_text: .asciz " - Error\n"
 .align 2
 play_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
-.text 
-	li s2, 1
-	li s3, 2
-	mv_down(s2,s3)
-	li s2, 0
-	li s3, 5
-	mv_up(s2,s3)
-	li s2, 1
-	li s3, 5
-	mv_up_left(s2,s3)
-	li s2, 2
-	mv_up_right(s2,s3)
-	li s2, 2
-	li s3, 2
-	mv_down_left(s2,s3)
-	li s2,3
-	mv_down_right(s2,s3)
-	
-	li a0, 1
-	li a1, 7
-	jal can_mv_down
-	li a0, 2
-	li a1, 4
-	jal can_mv_up_right
-	li a0, 0
-	li a1, 3
-	jal can_mv_up_left
-	li a0, 1
-	li a1, 7
-	jal can_mv_down_right
-	li a0, 2
-	li a1, 3
-	jal can_mv_down_left
-	
-	li a0, 2
-	li a1, 4
-	eat(UP)
-	li a0, 1
-	li a1, 3
-	eat(UP)
-	li a0, 3
-	li a1, 1
-	eat(DOWN)
-	li a0, 1
-	li a1, 0
-	eat(DOWN)
-	
-	li a0, 1
-	li a1, 7
-	eat_adj(UP)
-	li a0, 3
-	li a1, 6
-	eat_adj(UP)
-	
-	li a0, 3
-	li a1, 0
-	eat_adj(DOWN)
-	li a0, 0
-	li a1, 1
-	eat_adj(DOWN)
-	li a0, 2
-	li a1, 4
-	can_eat(UP)
-	li s0, 0
-	li s1, 1
-	li s2, WHITE
-	store_piece(s0,s1,s2)
-	li a0, 0
-	li a1, 0
-	can_eat(DOWN)
-	li a0, 2
-	li a1, 4
-	can_eat_adj(UP)
-	
+.text 	
 	turn_loop:
 	jal select_piece
 	mv s0, a0
 	mv s1, a1
+	
 	# Checks if piece is from the white team
 	load_piece(s0,s1)
 	li t0, WHITE
