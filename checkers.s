@@ -44,9 +44,44 @@ mv_down_right_text: .asciz " - Mover para baixo direito\n"
 mv_down_left_text: .asciz " - Mover para baixo esquerda\n"
 reselect_piece_text: .asciz " - Escolher outra peca\n"
 error_text: .asciz " - Error\n"
+
+# For testing
+white_space: .asciz " - "
+brk: .asciz "\n"
 .align 2
 play_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 .text 	
+	turn_draw:
+	mv s0, zero
+	mv s1, zero
+	li s2, 8
+	finish_row:
+	addi s1, s1, 1
+	print_string(brk)
+	draw_loop:
+	beq s1,s2, turn_loop
+	mv s0, zero
+	andi t0, s1, 0x01
+	beq t0, zero, even_row_draw_loop
+	
+	odd_row_draw_loop:
+	li t0, 4 
+	beq s0, t0, finish_row
+	print_string(white_space)
+	load_piece(s0,s1)
+	print_int(a0)
+	addi s0, s0, 1
+	j odd_row_draw_loop
+	
+	even_row_draw_loop:
+	li t0, 4 
+	beq s0, t0, finish_row
+	load_piece(s0,s1)
+	print_int(a0)
+	print_string(white_space)
+	addi s0, s0, 1
+	j even_row_draw_loop
+	
 	turn_loop:
 	jal select_piece
 	mv s0, a0
@@ -75,7 +110,7 @@ play_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 	mv a1, s0
 	mv a2, s1
 	jal execute_option
-	j turn_loop
+	j turn_draw
 
 .include "mv_piece.s"
 .include "eat_piece.s"
