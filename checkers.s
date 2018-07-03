@@ -36,12 +36,17 @@ invalid_option: .asciz "Opcao invalida.\n"
 unmovable_piece: .asciz "Peca sem movimentos validos, selecione outra peca.\n"
 invalid_piece: .asciz "Peca selecionada invalida, selecione outra peca.\n"
 
-mv_up_text: .asciz " - Mover para cima\n"
 mv_up_right_text: .asciz " - Mover para cima esquerda\n"
 mv_up_left_text: .asciz " - Mover para cima direita\n"
 mv_down_text: .asciz " - Mover para Baixo\n"
 mv_down_right_text: .asciz " - Mover para baixo esquerda\n"
 mv_down_left_text: .asciz " - Mover para baixo direita\n"
+
+eat_up_text: .asciz " - Comer para cima\n"
+eat_down_text: .asciz " - Comer para baixo\n"
+eat_adj_up_text: .asciz " - Comer adjacente cima\n"
+eat_adj_down_text: .asciz " - Comer adjacente baixo\n"
+
 reselect_piece_text: .asciz " - Escolher outra peca\n"
 error_text: .asciz " - Error\n"
 

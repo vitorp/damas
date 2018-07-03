@@ -306,6 +306,30 @@ option_text_addr:
 	j end_option_text_addr
 	not_mv_down_left:
 	
+	la t0, eat_up
+	bne a0, t0, not_eat_up
+	la a0, eat_up_text
+	j end_option_text_addr
+	not_eat_up:
+	
+	la t0, eat_down
+	bne a0, t0, not_eat_down
+	la a0, eat_down_text
+	j end_option_text_addr
+	not_eat_down:
+	
+	la t0, eat_adj_up
+	bne a0, t0, not_eat_adj_up
+	la a0, eat_adj_up_text
+	j end_option_text_addr
+	not_eat_adj_up:
+	
+	la t0, eat_adj_down
+	bne a0, t0, not_eat_adj_down
+	la a0, eat_adj_down_text
+	j end_option_text_addr
+	not_eat_adj_down:
+	
 	la t0, reselect_piece
 	bne a0, t0, not_reselect_piece
 	la a0, reselect_piece_text
