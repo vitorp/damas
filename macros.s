@@ -30,33 +30,6 @@
 	add a0, t1, t0
 .end_macro
 
-# params: a0(X axis), a1(Y axis)
-# Eats piece in specified direction
-.macro eat(%direction)
-	li a2, %direction
-	jal eat_y_axis
-.end_macro
-
-# params: a0(X axis), a1(Y axis)
-# Eats piece in specified direction
-.macro can_eat(%direction)
-	li a2, %direction
-	jal can_eat_y_axis
-.end_macro
-
-# params: a0(X axis), a1(Y axis)
-# Eats adjacent piece in specified direction
-# note: If Y is odd adjacent is to the left
-# if Y us even adjacent is to the right
-.macro eat_adj(%direction)
-	li a2, %direction
-	jal eat_x_axis
-.end_macro
-
-.macro can_eat_adj(%direction)
-	li a2, %direction
-	jal can_eat_x_axis
-.end_macro
 # params: piece1 reg, piece2 reg
 # Returns a0 = piece1 != piece2
 .macro compare(%piece1, %piece2)

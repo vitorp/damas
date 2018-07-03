@@ -2,7 +2,7 @@
 
 # Params: a0(X Axis), a1 (Y Axis)
 # Returns: a0( Options count )
-load_play_options:
+load_mv_options:
 	addi sp, sp, -16
 	sw s0, 0(sp)
 	sw s1, 4(sp)
@@ -70,14 +70,7 @@ load_play_options:
 	jal check_play_option
 	add s2, s2, a0
 	
-	end_play_options:
-	slli t0, s2, 2 # Calculate array pos
-	addi s2, s2, 1
-	la t1, play_options
-	add t1, t1, t0
-	la t2, reselect_piece
-	sw t2, 0(t1)
-	
+	end_play_options:	
 	mv a0, s2
 	
 	lw s0, 0(sp)
@@ -86,7 +79,89 @@ load_play_options:
 	lw ra, 12(sp)
 	addi sp, sp, 16
 	ret
+# Params: a0 (X Axis), a1(Y Axis), a2(Options Count)
+# Return: a0 (Options Count)
+load_eat_options:
+	addi sp, sp, -16
+	sw s0, 0(sp)
+	sw s1, 4(sp)
+	sw s2, 8(sp)
+	sw ra, 12(sp)
+	
+	mv s0, a0
+	mv s1, a1
+	mv s2, a2
 
+	load_piece(s0,s1)
+	li t0, BLACK
+	beq a0, t0, black_eat_options
+	
+	white_eat_options:
+	
+	mv a0, s0
+	mv a1, s1
+	la a2, can_eat_up
+	la a3, eat_up
+	mv a4, s2
+	jal check_play_option
+	add s2, s2, a0
+	
+	mv a0, s0
+	mv a1, s1
+	la a2, can_eat_adj_up
+	la a3, eat_adj_up
+	mv a4, s2
+	jal check_play_option
+	add s2, s2, a0
+	
+	j end_eat_options
+	black_eat_options:
+	
+	mv a0, s0
+	mv a1, s1
+	la a2, can_eat_down
+	la a3, eat_down
+	mv a4, s2
+	jal check_play_option
+	add s2, s2, a0
+	
+	mv a0, s0
+	mv a1, s1
+	la a2, can_eat_adj_down
+	la a3, eat_adj_down
+	mv a4, s2
+	jal check_play_option
+	add s2, s2, a0
+	
+	end_eat_options:
+	mv a0, s2 # a0 = Options count
+	lw s0, 0(sp)
+	lw s1, 4(sp)
+	lw s2, 8(sp)
+	lw ra, 12(sp)
+	addi sp, sp, 16
+	ret
+
+# Params: a0 (Option Count)
+# Return: a0 (option Count)
+load_reselect_piece:
+	addi sp, sp, -4
+	sw s0, 0(sp)
+	
+	mv s0, a0
+	
+	slli t0, s0, 2 # Calculate array pos
+	addi s0, s0, 1
+	la t1, play_options
+	add t1, t1, t0
+	la t2, reselect_piece
+	sw t2, 0(t1)
+	
+	mv a0, s0
+	lw s0, 0(sp)
+	addi sp, sp, 4
+	ret
+	
 # Params: a0(Options count), a1 (Y axis)
 # Returns: a0 (Option address)
 choose_option:

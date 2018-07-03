@@ -22,9 +22,9 @@
 .data
 base:   .word 0x06060606
 linha1: .word 0x06060606
-linha2: .word 0x06060606
-linha3: .word 0x00000000
-linha4: .word 0x00000000
+linha2: .word 0x00060006
+linha3: .word 0x00000600
+linha4: .word 0x00040600
 linha5: .word 0x04040404
 linha6: .word 0x04040404
 linha7: .word 0x04040404
@@ -46,7 +46,7 @@ reselect_piece_text: .asciz " - Escolher outra peca\n"
 error_text: .asciz " - Error\n"
 
 # For testing
-white_space: .asciz " - "
+white_space: .asciz "-"
 brk: .asciz "\n"
 .align 2
 play_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
@@ -89,16 +89,21 @@ play_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 	mv s1, a1
 	
 	# Checks if piece is from the white team
-	load_piece(s0,s1)
-	li t0, WHITE
-	beq a0, t0, valid_piece
-	print_string(invalid_piece)
-	j turn_loop
+	#load_piece(s0,s1)
+	#li t0, WHITE
+	# beq a0, t0, valid_piece
+	# print_string(invalid_piece)
+	# j turn_loop
 	
 	valid_piece:
 	mv a0, s0
 	mv a1, s1
-	jal load_play_options
+	jal load_mv_options
+	mv a2, a0
+	mv a0, s0
+	mv a1, s1
+	jal load_eat_options # a0 =  Option Count
+	jal load_reselect_piece
 	
 	# Check if piece has valid movements
 	li t0, 1
