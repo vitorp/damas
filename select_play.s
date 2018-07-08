@@ -357,6 +357,9 @@ select_piece:
 	print_string(piece_x)
 	read_int() # Piece X Axis
 	mv s0, a0
+	# quit
+	li t0, 11
+	beq a0, t0, exit
 	
 	print_string(piece_y)
 	read_int() # Piece Y Axis

@@ -36,11 +36,11 @@ invalid_option: .asciz "Opcao invalida.\n"
 unmovable_piece: .asciz "Peca sem movimentos validos, selecione outra peca.\n"
 invalid_piece: .asciz "Peca selecionada invalida, selecione outra peca.\n"
 
-mv_up_right_text: .asciz " - Mover para cima esquerda\n"
-mv_up_left_text: .asciz " - Mover para cima direita\n"
+mv_up_right_text: .asciz " - Mover para cima direita\n"
+mv_up_left_text: .asciz " - Mover para cima esquerda\n"
 mv_down_text: .asciz " - Mover para Baixo\n"
-mv_down_right_text: .asciz " - Mover para baixo esquerda\n"
-mv_down_left_text: .asciz " - Mover para baixo direita\n"
+mv_down_right_text: .asciz " - Mover para baixo direita\n"
+mv_down_left_text: .asciz " - Mover para baixo esquerda\n"
 
 eat_up_text: .asciz " - Comer para cima\n"
 eat_down_text: .asciz " - Comer para baixo\n"
@@ -59,6 +59,7 @@ play_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 	jal setup	# Printar a tela de menu
 	turn_draw:
 	jal print_step
+
 	turn_loop:
 	jal select_piece
 	mv s0, a0

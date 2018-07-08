@@ -12,13 +12,7 @@ print_board:
 
 	load_piece(s0,s1)
 	mv s3, a0 # s3 = piece
-	H1(s3)
-	jal PECAS
-	
-	addi s0, s0, 1
-	load_piece(s0,s1)
-	mv s3, a0 # s3 = piece
-	H2(s3)
+	H4(s3)
 	jal PECAS
 	
 	addi s0, s0, 1
@@ -30,7 +24,13 @@ print_board:
 	addi s0, s0, 1
 	load_piece(s0,s1)
 	mv s3, a0 # s3 = piece
-	H4(s3)
+	H2(s3)
+	jal PECAS
+	
+	addi s0, s0, 1
+	load_piece(s0,s1)
+	mv s3, a0 # s3 = piece
+	H1(s3)
 	jal PECAS
 	
 	mv s0, zero
@@ -38,13 +38,7 @@ print_board:
 
 	load_piece(s0,s1)
 	mv s3, a0 # s3 = piece
-	G1(s3)
-	jal PECAS
-	
-	addi s0, s0, 1
-	load_piece(s0,s1)
-	mv s3, a0 # s3 = piece
-	G2(s3)
+	G4(s3)
 	jal PECAS
 	
 	addi s0, s0, 1
@@ -56,7 +50,13 @@ print_board:
 	addi s0, s0, 1
 	load_piece(s0,s1)
 	mv s3, a0 # s3 = piece
-	G4(s3)
+	G2(s3)
+	jal PECAS
+	
+	addi s0, s0, 1
+	load_piece(s0,s1)
+	mv s3, a0 # s3 = piece
+	G1(s3)
 	jal PECAS
 	
 	mv s0, zero
@@ -64,13 +64,7 @@ print_board:
 
 	load_piece(s0,s1)
 	mv s3, a0 # s3 = piece
-	F1(s3)
-	jal PECAS
-	
-	addi s0, s0, 1
-	load_piece(s0,s1)
-	mv s3, a0 # s3 = piece
-	F2(s3)
+	F4(s3)
 	jal PECAS
 	
 	addi s0, s0, 1
@@ -82,7 +76,13 @@ print_board:
 	addi s0, s0, 1
 	load_piece(s0,s1)
 	mv s3, a0 # s3 = piece
-	F4(s3)
+	F2(s3)
+	jal PECAS
+	
+	addi s0, s0, 1
+	load_piece(s0,s1)
+	mv s3, a0 # s3 = piece
+	F1(s3)
 	jal PECAS
 	
 	mv s0, zero
@@ -90,13 +90,7 @@ print_board:
 
 	load_piece(s0,s1)
 	mv s3, a0 # s3 = piece
-	E1(s3)
-	jal PECAS
-	
-	addi s0, s0, 1
-	load_piece(s0,s1)
-	mv s3, a0 # s3 = piece
-	E2(s3)
+	E4(s3)
 	jal PECAS
 	
 	addi s0, s0, 1
@@ -108,7 +102,13 @@ print_board:
 	addi s0, s0, 1
 	load_piece(s0,s1)
 	mv s3, a0 # s3 = piece
-	E4(s3)
+	E2(s3)
+	jal PECAS
+	
+	addi s0, s0, 1
+	load_piece(s0,s1)
+	mv s3, a0 # s3 = piece
+	E1(s3)
 	jal PECAS
 	
 	mv s0, zero
@@ -116,13 +116,7 @@ print_board:
 
 	load_piece(s0,s1)
 	mv s3, a0 # s3 = piece
-	D1(s3)
-	jal PECAS
-	
-	addi s0, s0, 1
-	load_piece(s0,s1)
-	mv s3, a0 # s3 = piece
-	D2(s3)
+	D4(s3)
 	jal PECAS
 	
 	addi s0, s0, 1
@@ -134,7 +128,13 @@ print_board:
 	addi s0, s0, 1
 	load_piece(s0,s1)
 	mv s3, a0 # s3 = piece
-	D4(s3)
+	D2(s3)
+	jal PECAS
+	
+	addi s0, s0, 1
+	load_piece(s0,s1)
+	mv s3, a0 # s3 = piece
+	D1(s3)
 	jal PECAS
 	
 	mv s0, zero
@@ -142,13 +142,7 @@ print_board:
 
 	load_piece(s0,s1)
 	mv s3, a0 # s3 = piece
-	C1(s3)
-	jal PECAS
-	
-	addi s0, s0, 1
-	load_piece(s0,s1)
-	mv s3, a0 # s3 = piece
-	C2(s3)
+	C4(s3)
 	jal PECAS
 	
 	addi s0, s0, 1
@@ -160,7 +154,13 @@ print_board:
 	addi s0, s0, 1
 	load_piece(s0,s1)
 	mv s3, a0 # s3 = piece
-	C4(s3)
+	C2(s3)
+	jal PECAS
+	
+	addi s0, s0, 1
+	load_piece(s0,s1)
+	mv s3, a0 # s3 = piece
+	C1(s3)
 	jal PECAS
 	
 	mv s0, zero
@@ -168,13 +168,7 @@ print_board:
 
 	load_piece(s0,s1)
 	mv s3, a0 # s3 = piece
-	B1(s3)
-	jal PECAS
-	
-	addi s0, s0, 1
-	load_piece(s0,s1)
-	mv s3, a0 # s3 = piece
-	B2(s3)
+	B4(s3)
 	jal PECAS
 	
 	addi s0, s0, 1
@@ -186,7 +180,13 @@ print_board:
 	addi s0, s0, 1
 	load_piece(s0,s1)
 	mv s3, a0 # s3 = piece
-	B4(s3)
+	B2(s3)
+	jal PECAS
+	
+	addi s0, s0, 1
+	load_piece(s0,s1)
+	mv s3, a0 # s3 = piece
+	B1(s3)
 	jal PECAS
 	
 	mv s0, zero
@@ -194,13 +194,7 @@ print_board:
 
 	load_piece(s0,s1)
 	mv s3, a0 # s3 = piece
-	A1(s3)
-	jal PECAS
-	
-	addi s0, s0, 1
-	load_piece(s0,s1)
-	mv s3, a0 # s3 = piece
-	A2(s3)
+	A4(s3)
 	jal PECAS
 	
 	addi s0, s0, 1
@@ -212,7 +206,13 @@ print_board:
 	addi s0, s0, 1
 	load_piece(s0,s1)
 	mv s3, a0 # s3 = piece
-	A4(s3)
+	A2(s3)
+	jal PECAS
+	
+	addi s0, s0, 1
+	load_piece(s0,s1)
+	mv s3, a0 # s3 = piece
+	A1(s3)
 	jal PECAS
 	
 	end_print_board:
