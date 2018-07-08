@@ -1,7 +1,7 @@
 # Macros params can't be t0 - t3, a0
 .macro load_piece(%x,%y)
 	slli t0, %y, 2
-	la t1, base # Loads base adress
+	la t1, base
 	add t0, t1, t0 # Calculates line address
  	add t0, t0, %x # Calculates column address
  	lb a0, 0(t0)
@@ -61,3 +61,9 @@
 	ecall
 .end_macro
 
+load_piece:
+	slli t0, a1, 2
+	la t1, base # Loads base adress
+	add t0, t1, t0 # Calculates line address
+ 	add t0, t0, a0 # Calculates column address
+ 	lb a0, 0(t0)	

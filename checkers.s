@@ -55,8 +55,9 @@ white_space: .asciz "-"
 brk: .asciz "\n"
 .align 2
 play_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
-.text 	
+.text 		
 	turn_draw:
+	j skip
 	mv s0, zero
 	mv s1, zero
 	li s2, 8
@@ -87,7 +88,10 @@ play_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 	print_string(white_space)
 	addi s0, s0, 1
 	j even_row_draw_loop
-	
+
+	skip:
+	jal print_board
+	j exit
 	turn_loop:
 	jal select_piece
 	mv s0, a0
@@ -123,8 +127,11 @@ play_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 	mv a2, s1
 	jal execute_option
 	j turn_draw
+	
+	exit:
+	j exit
 
 .include "mv_piece.s"
 .include "eat_piece.s"
 .include "select_play.s"
-exit:
+.include "print_board.s"
