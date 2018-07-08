@@ -51,6 +51,8 @@ movable_enemies:
 	beq a0, t0, no_enemy_option
 	li t0, EMPTY
 	beq a0, t0, no_enemy_option
+	li t0, WHITE_KING
+	beq a0, t0, no_enemy_option
 	mv a0, s0
 	mv a1, s1
 	jal load_mv_options

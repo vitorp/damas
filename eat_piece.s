@@ -1,6 +1,7 @@
 .text
 
 # params: a1(X axis), a2(Y axis)
+# Return: a0(Destiny X Axis), a1(Destiny Y Axis)
 # Eats piece in specified direction
 eat_up:
 	addi sp, sp, -4
@@ -12,6 +13,7 @@ eat_up:
 	ret
 
 # params: a1(X axis), a2(Y axis)
+# Return: a0(Destiny X Axis), a1(Destiny Y Axis)
 # Eats adjacent piece in specified direction
 # note: If Y is odd adjacent is to the left
 # if Y us even adjacent is to the right
@@ -25,6 +27,7 @@ eat_adj_up:
 	ret
 
 # params: a1(X axis), a0(Y axis)
+# Return: a0(Destiny X Axis), a1(Destiny Y Axis)
 # Eats piece in specified direction
 eat_down:
 	addi sp, sp, -4
@@ -36,6 +39,7 @@ eat_down:
 	ret
 
 # params: a1(X axis), a2(Y axis)
+# Return: a0(Destiny X Axis), a1(Destiny Y Axis)
 # Eats adjacent piece in specified direction
 # note: If Y is odd adjacent is to the left
 # if Y us even adjacent is to the right
@@ -94,7 +98,7 @@ can_eat_adj_down:
 
 
 # params: a0 (UP || down), a1(X axis), a2(Y axis)
-#
+# Return: a0(Destiny X Axis), a1(Destiny Y Axis)
 # Eats piece in (a0,a1+a2) 
 # if odd delivers piece in (a0,a1) to:
 # (a0 - 1,a1 +(2*a2)) 
@@ -123,7 +127,9 @@ eat_y_axis:
 	add s1, s1, s3
 	add s0, s0, s2 # Goes left if even and right if odd
 	store_piece(s0,s1,a0)
-	
+	mv a0, s0
+	mv a1, s1
+
 	lw s0, 0(sp)
 	lw s1, 4(sp)
 	lw s2, 8(sp)
@@ -163,7 +169,9 @@ eat_x_axis:
 	# Storing at destination
 	add s1, s1, s3
 	store_piece(s0,s1,s4)
-	
+	mv a0, s0
+	mv a1, s1
+
 	lw s0, 0(sp)
 	lw s1, 4(sp)
 	lw s2, 8(sp)

@@ -5,7 +5,9 @@
 .eqv RIGHT	-1
 .eqv LEFT	1 
 .eqv WHITE	0x04
+.eqv WHITE_KING 0x05
 .eqv BLACK	0x06
+.eqv BLACK_KING 0x07
 .eqv EMPTY	0x00 
 
 # 0000: 
@@ -21,11 +23,11 @@
 
 .data
 base:   .word 0x06060606
-linha1: .word 0x06060606
-linha2: .word 0x00060006
-linha3: .word 0x00000600
-linha4: .word 0x00040600
-linha5: .word 0x04040404
+linha1: .word 0x00060600
+linha2: .word 0x00050006
+linha3: .word 0x00060600
+linha4: .word 0x00000000
+linha5: .word 0x00000000
 linha6: .word 0x04040404
 linha7: .word 0x04040404
 
@@ -48,6 +50,7 @@ eat_adj_up_text: .asciz " - Comer adjacente cima\n"
 eat_adj_down_text: .asciz " - Comer adjacente baixo\n"
 
 reselect_piece_text: .asciz " - Escolher outra peca\n"
+stop_king_text: .asciz " - Parar\n"
 error_text: .asciz " - Error\n"
 
 # For testing
@@ -58,10 +61,11 @@ play_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 enemy_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 			12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23
 .text
-	jal setup	# Printar a tela de menu
+	jal setup_step	# Printar a tela de menu
 	jal print_step
 	j turn_loop # So that player starts playing
-
+	turn_reset:
+	j turn_loop
 	turn_draw:
 	jal print_step
 	jal enemy_turn
@@ -71,16 +75,20 @@ enemy_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 	jal print_step
 	
 	turn_loop:
-	jal select_piece
+	jal select_piece_step
 	mv s0, a0
 	mv s1, a1
+	load_piece(s0,s1)
+	mv s2, a0 # s2 = piece
 	
 	# Checks if piece is from the white team
-	#load_piece(s0,s1)
-	#li t0, WHITE
-	# beq a0, t0, valid_piece
-	# print_string(invalid_piece)
-	# j turn_loop
+	load_piece(s0,s1)
+	li t0, WHITE
+	beq a0, t0, valid_piece
+	li t0, WHITE_KING
+	beq a0, t0, valid_piece
+	print_string(invalid_piece)
+	j turn_loop
 	
 	valid_piece:
 	mv a0, s0
@@ -103,8 +111,14 @@ enemy_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 	jal choose_option # a0 = Selected option label
 	mv a1, s0
 	mv a2, s1
+	li t0, WHITE_KING
+	li t1, BLACK_KING
+	beq s2, t0, king_move
+	beq s2, t1, king_move
 	jal execute_option
-	
+	j turn_draw
+	king_move:
+	jal king_loop_step
 	j turn_draw
 	
 	exit:
@@ -114,6 +128,26 @@ enemy_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 .include "mv_piece.s"
 .include "eat_piece.s"
 .include "enemy.s"
+
+setup_step:
+	j setup_step_2
+
+print_step:
+	j print_board
+
+select_piece_step:
+	j select_piece
+
+king_loop_step:
+	j king_loop
+
+.include "select_play.s"
+setup_step_2:
+	j setup
+
+.include "king.s"
+.include "print_board.s"
+
 setup:
 	addi sp, sp, -4
 	sw ra, 0(sp)
@@ -124,18 +158,6 @@ setup:
 	lw ra, 0(sp)
 	addi sp, sp, 4
 	ret
-
-print_step:
-	addi sp, sp, -4
-	sw ra, 0(sp)
-	jal print_board
-	lw ra, 0(sp)
-	addi sp, sp, 4
-	ret
-
-.include "select_play.s"
-.include "print_board.s"
-
 # Interface
 .include "music.s"
 .include "print_menu.s"

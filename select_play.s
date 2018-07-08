@@ -3,19 +3,22 @@
 # Params: a0(X Axis), a1 (Y Axis)
 # Returns: a0( Options count )
 load_mv_options:
-	addi sp, sp, -16
+	addi sp, sp, -20
 	sw s0, 0(sp)
 	sw s1, 4(sp)
 	sw s2, 8(sp)
 	sw ra, 12(sp)
+	sw s3, 16(sp)
 	
-	mv s0, a0
-	mv s1, a1
-	mv s2, zero
+	mv s0, a0 # s0 = X Axis
+	mv s1, a1 # s1 = Y Axis
+	mv s2, zero # s2 = Options Count
 
 	load_piece(s0,s1)
+	mv s3, a0 # s3 = Piece
+
 	li t0, BLACK
-	beq a0, t0, black_options
+	beq s3, t0, black_options
 
 	white_options:
 	
@@ -43,7 +46,8 @@ load_mv_options:
 	jal check_play_option
 	add s2, s2, a0
 	
-	j end_play_options
+	li t0, WHITE
+	beq s3, t0 end_play_options # If its not white its a king so it can continue to black options
 
 	black_options:
 	mv a0, s0
@@ -77,22 +81,26 @@ load_mv_options:
 	lw s1, 4(sp)
 	lw s2, 8(sp)
 	lw ra, 12(sp)
-	addi sp, sp, 16
+	lw s3, 16(sp)
+	addi sp, sp, 20
 	ret
+
 # Params: a0 (X Axis), a1(Y Axis), a2(Options Count)
 # Return: a0 (Options Count)
 load_eat_options:
-	addi sp, sp, -16
+	addi sp, sp, -20
 	sw s0, 0(sp)
 	sw s1, 4(sp)
 	sw s2, 8(sp)
 	sw ra, 12(sp)
+	sw s3, 16(sp)
 	
-	mv s0, a0
-	mv s1, a1
-	mv s2, a2
+	mv s0, a0 # s0 = A Axis
+	mv s1, a1 # s1 - Y Axis
+	mv s2, a2 # s3 = Options Count
 
 	load_piece(s0,s1)
+	mv s3, a0 # s3 = a0
 	li t0, BLACK
 	beq a0, t0, black_eat_options
 	
@@ -114,7 +122,8 @@ load_eat_options:
 	jal check_play_option
 	add s2, s2, a0
 	
-	j end_eat_options
+	li t0, WHITE
+	beq s3, t0 end_eat_options # If its not white its a king so it can continue to black options
 	black_eat_options:
 	
 	mv a0, s0
@@ -139,7 +148,8 @@ load_eat_options:
 	lw s1, 4(sp)
 	lw s2, 8(sp)
 	lw ra, 12(sp)
-	addi sp, sp, 16
+	lw s3, 16(sp)
+	addi sp, sp, 20
 	ret
 
 # Params: a0 (Option Count)
@@ -219,6 +229,7 @@ choose_option:
 	ret
 
 # Params: a0 (Options Adress), a1(X Axis), a2 (Y Axis)
+# Return: a0(Destiny X Axis), a1(Destiny Y Axis)
 execute_option:
 	addi sp, sp, -4
 	sw ra, 0(sp)
@@ -231,9 +242,13 @@ execute_option:
 
 reselect_piece:
 	addi sp, sp, 4 # Free ra stacked in execute_option
+	j turn_reset
+
+stop_king:
+	addi sp, sp, 4 # Free ra stacked in execute_option
 	j turn_draw
 
-# Params: a0(X Axis), a1 (Y Axis), a2(Check Option label), a3(Option label), a4(Options counter)
+# Params: a0(X Axis), a1 (Y Axis), a2(Check Option label), a3(Option label), a4(Option Count)
 # returns: a0 = 1 if option is added
 #          a0 = 0 if option skipped
 check_play_option:
@@ -335,6 +350,12 @@ option_text_addr:
 	la a0, reselect_piece_text
 	j end_option_text_addr
 	not_reselect_piece:
+	
+	la t0, stop_king
+	bne a0, t0, not_stop_king
+	la a0, stop_king_text
+	j end_option_text_addr
+	not_stop_king:
 	
 	la a0, error_text
 	
