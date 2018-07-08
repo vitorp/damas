@@ -1,0 +1,2 @@
+-Foi necessário alterar no parametros o tamanho do .data para 16 na linha 134, pq pela quantidade de dados não cabia o suficiente, era dado um erro que n se tinha mais espaço;
+-
