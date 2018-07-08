@@ -55,11 +55,14 @@ white_space: .asciz "-"
 brk: .asciz "\n"
 .align 2
 play_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
-.text 		
+enemy_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+			12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23
+.text
+	jal enemy_turn
 	jal setup	# Printar a tela de menu
 	turn_draw:
 	jal print_step
-
+	j exit
 	turn_loop:
 	jal select_piece
 	mv s0, a0
@@ -90,7 +93,7 @@ play_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 	
 	movable_piece:
 	mv a1, s1
-	jal choose_option
+	jal choose_option # a0 = Selected option label
 	mv a1, s0
 	mv a2, s1
 	jal execute_option
@@ -102,7 +105,7 @@ play_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 
 .include "mv_piece.s"
 .include "eat_piece.s"
-
+.include "enemy.s"
 setup:
 	addi sp, sp, -4
 	sw ra, 0(sp)
