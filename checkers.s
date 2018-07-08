@@ -56,42 +56,9 @@ brk: .asciz "\n"
 .align 2
 play_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 .text 		
+	jal setup	# Printar a tela de menu
 	turn_draw:
-	j skip
-	mv s0, zero
-	mv s1, zero
-	li s2, 8
-	j draw_loop
-	finish_row:
-	addi s1, s1, 1
-	print_string(brk)
-	draw_loop:
-	beq s1,s2, turn_loop
-	mv s0, zero
-	andi t0, s1, 0x01
-	beq t0, zero, even_row_draw_loop
-	
-	odd_row_draw_loop:
-	li t0, 4 
-	beq s0, t0, finish_row
-	print_string(white_space)
-	load_piece(s0,s1)
-	print_int(a0)
-	addi s0, s0, 1
-	j odd_row_draw_loop
-	
-	even_row_draw_loop:
-	li t0, 4 
-	beq s0, t0, finish_row
-	load_piece(s0,s1)
-	print_int(a0)
-	print_string(white_space)
-	addi s0, s0, 1
-	j even_row_draw_loop
-
-	skip:
-	jal print_board
-	j exit
+	jal print_step
 	turn_loop:
 	jal select_piece
 	mv s0, a0
@@ -134,5 +101,33 @@ play_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 
 .include "mv_piece.s"
 .include "eat_piece.s"
+
+setup:
+	addi sp, sp, -4
+	sw ra, 0(sp)
+	jal PRINT_MENU	# Printar a tela de menu
+	jal MAIN_music	# coloca para tocar musica
+	#jal PERGUNTA_NIVEL
+	jal PRINT_TABULEIRO
+	lw ra, 0(sp)
+	addi sp, sp, 4
+	ret
+
+print_step:
+	addi sp, sp, -4
+	sw ra, 0(sp)
+	jal print_board
+	lw ra, 0(sp)
+	addi sp, sp, 4
+	ret
+
 .include "select_play.s"
 .include "print_board.s"
+
+# Interface
+.include "music.s"
+.include "print_menu.s"
+.include "pergunta_nivel.s"
+.include "print_tabuleiro.s"
+
+.include "SYSTEMv11.s"
