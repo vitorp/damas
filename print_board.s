@@ -9,10 +9,7 @@ print_board:
 	mv s0, zero # s0 = X Axis
 	mv s1, zero # s1 = Y axis
 	li s3, BLACK
-	
-	print_int(s0)
-	print_int(s1)
-	
+
 	load_piece(s0,s1)
 	jal piece_print_addr
 	mv s2, a0 # s2 = print_addr
@@ -40,12 +37,10 @@ print_board:
 	#A4()
 	jalr s2, 0
 	
-	print_int(s0)
-	print_int(s1)
+
 	addi s1, s1, 1 # y += 1
 	mv s0, zero
 
-	addi s0, s0, 1
 	load_piece(s0,s1)
 	jal piece_print_addr
 	mv s2, a0 # s2 = print_addr
@@ -73,13 +68,9 @@ print_board:
 	#B4()
 	jalr s2, 0
 	
-	print_int(s0)
-	print_int(s1)
-	
 	addi s1, s1, 1 # y += 1
 	mv s0, zero
 	
-	addi s0, s0, 1
 	load_piece(s0,s1)
 	jal piece_print_addr
 	mv s2, a0 # s2 = print_addr
@@ -107,6 +98,156 @@ print_board:
 	#C4()
 	jalr s2, 0
 	
+	addi s1, s1, 1 # y += 1
+	mv s0, zero
+	
+	load_piece(s0,s1)
+	jal piece_print_addr
+	mv s2, a0 # s2 = print_addr
+	#D1()
+	jalr s2, 0
+	
+	addi s0, s0, 1
+	load_piece(s0,s1)
+	jal piece_print_addr
+	mv s2, a0 # s2 = print_addr
+	#D2()
+	jalr s2, 0
+	
+	addi s0, s0, 1
+	load_piece(s0,s1)
+	jal piece_print_addr
+	mv s2, a0 # s2 = print_addr
+	#D3()
+	jalr s2, 0
+	
+	addi s0, s0, 1
+	load_piece(s0,s1)
+	jal piece_print_addr
+	mv s2, a0 # s2 = print_addr
+	#D4()
+	jalr s2, 0
+	
+	addi s1, s1, 1 # y += 1
+	mv s0, zero
+	
+	load_piece(s0,s1)
+	jal piece_print_addr
+	mv s2, a0 # s2 = print_addr
+	#E1()
+	jalr s2, 0
+	
+	addi s0, s0, 1
+	load_piece(s0,s1)
+	jal piece_print_addr
+	mv s2, a0 # s2 = print_addr
+	#E2()
+	jalr s2, 0
+	
+	addi s0, s0, 1
+	load_piece(s0,s1)
+	jal piece_print_addr
+	mv s2, a0 # s2 = print_addr
+	#E3()
+	jalr s2, 0
+	
+	addi s0, s0, 1
+	load_piece(s0,s1)
+	jal piece_print_addr
+	mv s2, a0 # s2 = print_addr
+	#E4()
+	jalr s2, 0
+	
+	addi s1, s1, 1 # y += 1
+	mv s0, zero
+	
+	load_piece(s0,s1)
+	jal piece_print_addr
+	mv s2, a0 # s2 = print_addr
+	#F1()
+	jalr s2, 0
+	
+	addi s0, s0, 1
+	load_piece(s0,s1)
+	jal piece_print_addr
+	mv s2, a0 # s2 = print_addr
+	#F2()
+	jalr s2, 0
+	
+	addi s0, s0, 1
+	load_piece(s0,s1)
+	jal piece_print_addr
+	mv s2, a0 # s2 = print_addr
+	#F3()
+	jalr s2, 0
+	
+	addi s0, s0, 1
+	load_piece(s0,s1)
+	jal piece_print_addr
+	mv s2, a0 # s2 = print_addr
+	#F4()
+	jalr s2, 0
+	
+	addi s1, s1, 1 # y += 1
+	mv s0, zero
+	
+	load_piece(s0,s1)
+	jal piece_print_addr
+	mv s2, a0 # s2 = print_addr
+	#G1()
+	jalr s2, 0
+	
+	addi s0, s0, 1
+	load_piece(s0,s1)
+	jal piece_print_addr
+	mv s2, a0 # s2 = print_addr
+	#G2()
+	jalr s2, 0
+	
+	addi s0, s0, 1
+	load_piece(s0,s1)
+	jal piece_print_addr
+	mv s2, a0 # s2 = print_addr
+	#G3()
+	jalr s2, 0
+	
+	addi s0, s0, 1
+	load_piece(s0,s1)
+	jal piece_print_addr
+	mv s2, a0 # s2 = print_addr
+	#G4()
+	jalr s2, 0
+	
+	addi s1, s1, 1 # y += 1
+	mv s0, zero
+	
+	load_piece(s0,s1)
+	jal piece_print_addr
+	mv s2, a0 # s2 = print_addr
+	#H1()
+	jalr s2, 0
+	
+	addi s0, s0, 1
+	load_piece(s0,s1)
+	jal piece_print_addr
+	mv s2, a0 # s2 = print_addr
+	#H2()
+	jalr s2, 0
+	
+	addi s0, s0, 1
+	load_piece(s0,s1)
+	jal piece_print_addr
+	mv s2, a0 # s2 = print_addr
+	#H3()
+	jalr s2, 0
+	
+	addi s0, s0, 1
+	load_piece(s0,s1)
+	jal piece_print_addr
+	mv s2, a0 # s2 = print_addr
+	#H4()
+	jalr s2, 0
+	
 	lw s0, 0(sp)
 	lw s1, 4(sp)
 	lw ra, 8(sp)
@@ -128,6 +269,11 @@ piece_print_addr:
 	not_white:
 	li t0, EMPTY
 	beq s0, t0, empty_space
+	li t0, BLACK
+	beq s0, t0, is_black_piece
+	la a0, print_error
+	j end_piece_print_addr
+	is_black_piece:
 	la a0, print_black_piece
 	j end_piece_print_addr
 	empty_space:
@@ -150,4 +296,11 @@ print_black_piece:
 	ret
 	
 print_nothing:
+	li a0, 0
+	print_int(a0)
+	ret
+
+print_error:
+	li a0, 9
+	print_int(a0)
 	ret

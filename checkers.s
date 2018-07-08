@@ -129,7 +129,8 @@ play_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 	j turn_draw
 	
 	exit:
-	j exit
+	li a7, 10
+	ecall
 
 .include "mv_piece.s"
 .include "eat_piece.s"
