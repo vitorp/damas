@@ -100,6 +100,14 @@ load_mv_options_y_axis:
 	mv a4, s2
 	jal check_play_option
 	add s2, s2, a0
+	
+	mv a0, s0
+	mv a1, s1
+	la a2, can_eat_down
+	la a3, eat_down
+	mv a4, s2
+	jal check_play_option
+	add s2, s2, a0
 
 	j end_load_options_y_axis
 	going_up:
@@ -107,6 +115,14 @@ load_mv_options_y_axis:
 	mv a1, s1
 	la a2, can_mv_up
 	la a3, mv_up
+	mv a4, s2
+	jal check_play_option
+	add s2, s2, a0
+	
+	mv a0, s0
+	mv a1, s1
+	la a2, can_eat_up
+	la a3, eat_up
 	mv a4, s2
 	jal check_play_option
 	add s2, s2, a0
@@ -152,6 +168,15 @@ load_mv_options_x_axis:
 	mv a4, s2
 	jal check_play_option
 	add s2, s2, a0
+	
+		
+	mv a0, s0
+	mv a1, s1
+	la a2, can_eat_adj_down
+	la a3, eat_adj_down
+	mv a4, s2
+	jal check_play_option
+	add s2, s2, a0
 
 	j end_load_options_x_axis
 	going_adj_up:
@@ -167,6 +192,14 @@ load_mv_options_x_axis:
 	mv a1, s1
 	la a2, can_mv_up_left
 	la a3, mv_up_left
+	mv a4, s2
+	jal check_play_option
+	add s2, s2, a0
+	
+	mv a0, s0
+	mv a1, s1
+	la a2, can_eat_adj_up
+	la a3, eat_adj_up
 	mv a4, s2
 	jal check_play_option
 	add s2, s2, a0

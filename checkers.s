@@ -24,11 +24,11 @@
 .data
 base:   .word 0x06060606
 linha1: .word 0x00060600
-linha2: .word 0x00050006
-linha3: .word 0x00060600
-linha4: .word 0x00000000
-linha5: .word 0x00000000
-linha6: .word 0x04040404
+linha2: .word 0x06000606
+linha3: .word 0x00000000
+linha4: .word 0x00050000
+linha5: .word 0x00000006
+linha6: .word 0x04040400
 linha7: .word 0x04040404
 
 piece_x: .asciz "Digite a coordenada X da peça:\n"
