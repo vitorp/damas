@@ -39,12 +39,12 @@ movable_enemies:
 	mv s2, zero # s2 = Movable enemy pieces counter
 	
 	movable_enemies_loop:
-	li t0, 7
-	bgt s1, t0, end_movable_enemies
 	li t0, 4
 	blt s0, t0, no_row_reset
 	mv s0, zero
 	addi s1, s1, 1
+	li t0, 7
+	bgt s1, t0, end_movable_enemies
 	no_row_reset:
 	load_piece(s0,s1)
 	li t0, WHITE
@@ -64,10 +64,7 @@ movable_enemies:
 	add t0, t0, t1
 	sw s0, 0(t0) # Store X Axis
 	sw s1, 4(t0) # Store Y Axis
-	print_int(s0)
-	print_int(s1)
 	addi s2, s2, 1 # Increments movable enemies counter
-	
 	no_enemy_option:
 	addi s0, s0, 1
 	j movable_enemies_loop
@@ -89,8 +86,13 @@ select_enemy:
 	sw s0, 0(sp)
 	
 	mv s0, a0
-	li a0, 41
+	mv a0, zero
+	li a7, 41
 	ecall
+	bgt a0, t0, not_negative_select_enemy
+	li t0, -1
+	mul a0, a0, t0
+	not_negative_select_enemy:
 	rem t0, a0, s0
 	slli t0, t0, 3
 	la t1, enemy_options
@@ -110,8 +112,13 @@ select_option:
 	sw s0, 0(sp)
 	
 	mv s0, a0 # s0 = Option count
-	li a0, 41
+	mv a0, zero
+	li a7, 41
 	ecall
+	bgt a0, t0, not_negative_select_option
+	li t0, -1
+	mul a0, a0, t0
+	not_negative_select_option:
 	rem t0, a0, s0 # selected option
 	
 	# Loads option

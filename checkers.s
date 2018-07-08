@@ -58,11 +58,18 @@ play_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 enemy_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 			12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23
 .text
-	jal enemy_turn
 	jal setup	# Printar a tela de menu
+	jal print_step
+	j turn_loop # So that player starts playing
+
 	turn_draw:
 	jal print_step
-	j exit
+	jal enemy_turn
+	li a0, 3000
+	li a7, 32
+	ecall
+	jal print_step
+	
 	turn_loop:
 	jal select_piece
 	mv s0, a0
@@ -97,6 +104,7 @@ enemy_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 	mv a1, s0
 	mv a2, s1
 	jal execute_option
+	
 	j turn_draw
 	
 	exit:
