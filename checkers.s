@@ -23,7 +23,7 @@
 
 .data
 base:   .word 0x00000000
-linha1: .word 0x00000600
+linha1: .word 0x00000700
 linha2: .word 0x00000000
 linha3: .word 0x00000000
 linha4: .word 0x00050000
