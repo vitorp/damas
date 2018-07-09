@@ -25,21 +25,15 @@ SOUND:
 	addi t0, zero,  100
 	bge s0,t0,PULA_musica
 	addi a1,a1,195
-	
-PULA_musica:	#li $a2,24
-	li a7, 31	#syscall for midi
-	ecall
-	jr ra
 
-.macro	sleep(%duration)
-	lw a0, 0(%duration)
-	jal SLEEP_musica
-.end_macro
-SLEEP_musica:
-	addi a0,a0,10
-	li a7, 32	#syscall for sleep
-	ecall
-	jr ra
+PULA_musica:	#li $a2,24
+	addi sp, sp, -4
+	sw ra, 0(sp)
+	li a7, 131	#syscall for midi
+	jalr s11, 0
+	lw ra, 0(sp)
+	addi sp, sp, 4
+	ret
 
 MAIN_music:
 	addi sp, sp, -4 #salvar o valor de ra para retornar para a main
@@ -54,7 +48,6 @@ MAIN_music:
 	la s6, INSTRUMENTO	#instrumento
 LOOP_musica:
 	sound(s1,s2,s3,s6,s5)
-	#sleep(s4)
 
 	beq s0,zero,  FIM_musica
 
@@ -65,7 +58,7 @@ LOOP_musica:
 	addi s5, s5, 4
 
 	j LOOP_musica
-FIM_musica:	
+FIM_musica:
 	lw ra, 0(sp)
 	addi sp, sp, 4
 	jr ra

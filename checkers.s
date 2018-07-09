@@ -3,20 +3,20 @@
 .eqv DOWN	1
 .eqv UP		-1
 .eqv RIGHT	-1
-.eqv LEFT	1 
+.eqv LEFT	1
 .eqv WHITE	0x04
 .eqv WHITE_KING 0x05
 .eqv BLACK	0x06
 .eqv BLACK_KING 0x07
-.eqv EMPTY	0x00 
+.eqv EMPTY	0x00
 
-# 0000: 
+# 0000:
 # bit[3] = inutilizado
-# bit[2] = peça existente
+# bit[2] = peï¿½a existente
 # bit[1] = Time ( Branco = 0 e Preto = 1 )
 # bit[0] = Dama
-# Peça Branca = 0x04
-# Peça Preta = 0x06
+# Peï¿½a Branca = 0x04
+# Peï¿½a Preta = 0x06
 # Dama Branca = 0x05
 # Dama Preta = 0x07
 # Vazio = 0x00
@@ -68,7 +68,7 @@ enemy_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 	jal load_exception_handling # s11 = ecall address
 	jal setup_step	# Printar a tela de menu
 	jal print_step
-	
+
 	j turn_loop # So that player starts playing
 	turn_reset:
 	li t0, 9
@@ -79,29 +79,28 @@ enemy_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 	li t0, 9
 	la t1, line_control
 	sw t0, 0(t1)
-	
+
 	jal upgrade_white_kings_step
 	jal find_black_piece_step
 	beq a0, zero, victory
-	
+
 	jal enemy_turn
 	jal upgrade_black_kings_step
-	li a0, 3000
-	li a7, 32
-	ecall
+	li t4, 3000
+	sleep(t4)
 	jal find_white_piece_step
 	beq a0, zero, defeat
 	turn_draw:
 	jal print_step
-	
-	
+
+
 	turn_loop:
 	jal select_piece_step
 	mv s0, a0
 	mv s1, a1
 	load_piece(s0,s1)
 	mv s2, a0 # s2 = piece
-	
+
 	# Checks if piece is from the white team
 	load_piece(s0,s1)
 	li t0, WHITE
@@ -123,7 +122,7 @@ enemy_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 	mv a1, s1
 	jal load_eat_options # a0 =  Option Count
 	jal load_reselect_piece
-	
+
 	# Check if piece has valid movements
 	li t0, 1
 	bgt a0, t0, movable_piece
@@ -132,7 +131,7 @@ enemy_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 	sleep(t4)
 	print_string(clear_line)
 	j turn_loop
-	
+
 	movable_piece:
 	mv a1, s1
 	jal choose_option # a0 = Selected option label
@@ -147,15 +146,14 @@ enemy_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 	king_move:
 	jal king_loop_step
 	j turn_start
-	
+
 	defeat:
 	print_string(defeat_text)
 	j exit
 	victory:
 	print_string(victory_text)
 	exit:
-	li a7, 10
-	ecall
+	j exit
 
 .include "mv_piece.s"
 
@@ -177,7 +175,7 @@ find_black_piece_step:
 
 find_white_piece_step:
 	j find_white_piece
-	
+
 upgrade_white_kings_step:
 	j upgrade_black_kings
 upgrade_black_kings_step:
@@ -205,7 +203,7 @@ print_step_2:
 	lw ra, 0(sp)
 	addi sp, sp, 4
 	ret
-	
+
 .include "checks.s"
 .include "king.s"
 .include "print_board.s"

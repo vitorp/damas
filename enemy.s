@@ -37,7 +37,7 @@ movable_enemies:
 	mv s0, zero # s0 = X Axis
 	mv s1, zero # s1 = Y Axis
 	mv s2, zero # s2 = Movable enemy pieces counter
-	
+
 	movable_enemies_loop:
 	li t0, 4
 	blt s0, t0, no_row_reset
@@ -70,7 +70,7 @@ movable_enemies:
 	no_enemy_option:
 	addi s0, s0, 1
 	j movable_enemies_loop
-	
+
 	end_movable_enemies:
 	mv a0, s2
 	lw s0, 0(sp)
@@ -84,13 +84,14 @@ movable_enemies:
 # Return: a0 (X axis), a1 (Y axis)
 # Selects randomly a movable enemy
 select_enemy:
-	addi sp, sp, -4
+	addi sp, sp, -8
 	sw s0, 0(sp)
-	
+	sw ra, 4(sp)
+
 	mv s0, a0
 	mv a0, zero
-	li a7, 41
-	ecall
+	li a7, 141
+	jalr s11, 0
 	bgt a0, t0, not_negative_select_enemy
 	li t0, -1
 	mul a0, a0, t0
@@ -101,9 +102,10 @@ select_enemy:
 	add t0, t0, t1
 	lw a0, 0(t0)
 	lw a1, 4(t0)
-	
+
 	lw s0, 0(sp)
-	addi sp, sp, 4
+	lw ra, 4(sp)
+	addi sp, sp, 8
 	ret
 
 # Params: a0 (Option count)
@@ -112,23 +114,23 @@ select_enemy:
 select_option:
 	addi sp, sp, -4
 	sw s0, 0(sp)
-	
+
 	mv s0, a0 # s0 = Option count
 	mv a0, zero
 	li a7, 41
-	ecall
+	jalr s11, 0
 	bgt a0, t0, not_negative_select_option
 	li t0, -1
 	mul a0, a0, t0
 	not_negative_select_option:
 	rem t0, a0, s0 # selected option
-	
+
 	# Loads option
 	slli t0, t0, 2
 	la t1, play_options
 	add t0, t0, t1
 	lw a0, 0(t0)
-	
+
 	lw s0, 0(sp)
 	addi sp, sp, 4
 	ret

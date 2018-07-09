@@ -62,7 +62,7 @@
 
 .macro read_int()
 	li a7, 5
-	ecall
+	jalr s11, 0 # Jumping to ECALL
 .end_macro
 
 .macro print_int(%int)
