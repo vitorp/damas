@@ -23,10 +23,10 @@
 
 .data
 base:   .word 0x00000000
-linha1: .word 0x00000700
-linha2: .word 0x00000000
+linha1: .word 0x00000000
+linha2: .word 0x06060600
 linha3: .word 0x00050000
-linha4: .word 0x00000000
+linha4: .word 0x06060600
 linha5: .word 0x00000000
 linha6: .word 0x04000000
 linha7: .word 0x04000000
@@ -44,10 +44,10 @@ mv_down_text: .asciz " - Mover para Baixo\n"
 mv_down_right_text: .asciz " - Mover para baixo direita\n"
 mv_down_left_text: .asciz " - Mover para baixo esquerda\n"
 
-eat_up_text: .asciz " - Comer para cima\n"
-eat_down_text: .asciz " - Comer para baixo\n"
-eat_adj_up_text: .asciz " - Comer adjacente cima\n"
-eat_adj_down_text: .asciz " - Comer adjacente baixo\n"
+eat_up_left_text: .asciz " - Comer para cima esquerda\n"
+eat_up_right_text: .asciz " - Comer para cima direita\n"
+eat_down_right_text: .asciz " - Comer para baixo direita\n"
+eat_down_left_text: .asciz " - Comer para baixo esquerda.\n"
 
 reselect_piece_text: .asciz " - Escolher outra peca\n"
 stop_king_text: .asciz " - Parar\n"
