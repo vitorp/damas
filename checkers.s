@@ -25,18 +25,18 @@
 base:   .word 0x00000000
 linha1: .word 0x00000700
 linha2: .word 0x00000000
-linha3: .word 0x00000000
-linha4: .word 0x00050000
+linha3: .word 0x00050000
+linha4: .word 0x00000000
 linha5: .word 0x00000000
-linha6: .word 0x00000000
-linha7: .word 0x00000000
+linha6: .word 0x04000000
+linha7: .word 0x04000000
 
-piece_x: .asciz "Digite a coordenada X da peça:\n"
-piece_y: .asciz "Digite a coordenada Y da peça:\n"
-invalid_x_y:  .asciz "Coordenadas invalidas. Reselecione a peca.\n"
+piece_x: .asciz "Digite a coordenada X:\n"
+piece_y: .asciz "Digite a coordenada Y:\n"
+invalid_x_y:  .asciz "Coordenadas invalidas."
 invalid_option: .asciz "Opcao invalida.\n"
-unmovable_piece: .asciz "Peca sem movimentos validos, selecione outra peca.\n"
-invalid_piece: .asciz "Peca selecionada invalida, selecione outra peca.\n"
+unmovable_piece: .asciz "Peca sem movimentos validos!"
+invalid_piece: .asciz "Peca selecionada invalida!"
 
 mv_up_right_text: .asciz " - Mover para cima direita\n"
 mv_up_left_text: .asciz " - Mover para cima esquerda\n"
@@ -55,33 +55,45 @@ error_text: .asciz " - Error\n"
 
 victory_text: .asciz " Parabens voce ganhou!\n"
 defeat_text: .asciz " Voce perdeu!\n"
+clear_line: .asciz "                                    "
 # For testing
 white_space: .asciz "-"
 brk: .asciz "\n"
 .align 2
+line_control: .word 0
 play_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 enemy_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 			12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23
 .text
+	jal load_exception_handling # s11 = ecall address
 	jal setup_step	# Printar a tela de menu
 	jal print_step
 	
 	j turn_loop # So that player starts playing
 	turn_reset:
-	j turn_loop
-	turn_draw:
+	li t0, 9
+	la t1, line_control
+	sw t0, 0(t1)
+	j turn_draw
+	turn_start:
+	li t0, 9
+	la t1, line_control
+	sw t0, 0(t1)
+	
 	jal upgrade_white_kings_step
 	jal find_black_piece_step
 	beq a0, zero, victory
-	jal print_step
+	
 	jal enemy_turn
 	jal upgrade_black_kings_step
 	li a0, 3000
 	li a7, 32
 	ecall
-	jal print_step
 	jal find_white_piece_step
 	beq a0, zero, defeat
+	turn_draw:
+	jal print_step
+	
 	
 	turn_loop:
 	jal select_piece_step
@@ -97,6 +109,9 @@ enemy_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 	li t0, WHITE_KING
 	beq a0, t0, valid_piece
 	print_string(invalid_piece)
+	li t4, 3000
+	sleep(t4)
+	print_string(clear_line)
 	j turn_loop
 
 	valid_piece:
@@ -113,6 +128,9 @@ enemy_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 	li t0, 1
 	bgt a0, t0, movable_piece
 	print_string(unmovable_piece)
+	li t4, 3000
+	sleep(t4)
+	print_string(clear_line)
 	j turn_loop
 	
 	movable_piece:
@@ -125,16 +143,18 @@ enemy_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 	beq s2, t0, king_move
 	beq s2, t1, king_move
 	jal execute_option
-	j turn_draw
+	j turn_start
 	king_move:
 	jal king_loop_step
-	j turn_draw
+	j turn_start
 	
 	defeat:
-	print_string(defeat_text)
+	la t4, defeat_text
+	print_string_reg(t4)
 	j exit
 	victory:
-	print_string(victory_text)
+	la t4, victory_text
+	print_string_reg(t4)
 	exit:
 	li a7, 10
 	ecall
@@ -147,8 +167,7 @@ setup_step:
 	j setup_step_2
 
 print_step:
-	j print_board
-
+	j print_step_2
 select_piece_step:
 	j select_piece
 
@@ -165,11 +184,30 @@ upgrade_white_kings_step:
 	j upgrade_black_kings
 upgrade_black_kings_step:
 	j upgrade_white_kings
+load_exception_handling:
+	j load_exception_handling_2
+turn_start_step:
+	j turn_start
+turn_reset_step:
+	j turn_reset
 
 .include "select_play.s"
 
 setup_step_2:
 	j setup
+
+load_exception_handling_2:
+	j load_exception_handling_3
+
+print_step_2:
+	addi sp, sp, -4
+	sw ra, 0(sp)
+	jal PRINT_TABULEIRO
+	jal print_board
+	lw ra, 0(sp)
+	addi sp, sp, 4
+	ret
+	
 .include "checks.s"
 .include "king.s"
 .include "print_board.s"
@@ -180,9 +218,12 @@ setup:
 	jal PRINT_MENU	# Printar a tela de menu
 	jal MAIN_music	# coloca para tocar musica
 	#jal PERGUNTA_NIVEL
-	jal PRINT_TABULEIRO
 	lw ra, 0(sp)
 	addi sp, sp, 4
+	ret
+
+load_exception_handling_3:
+	la s11, exceptionHandling
 	ret
 # Interface
 .include "music.s"

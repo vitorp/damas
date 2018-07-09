@@ -40,14 +40,24 @@
 
 .macro print_string_reg(%reg)
 	mv a0, %reg
-	li a7, 4
-	ecall
+	li a7, 104
+	la t0, line_control
+	lw t1, 0(t0)
+	mv a2, t1
+	li a1, 7
+	li a3, 0xFF00
+	jalr s11, 0 # Jumping to ECALL
+	addi t1, t1, 9
+	sw t1, 0(t0)
 .end_macro
 
 .macro print_string(%label)
 	la a0, %label
-	li a7, 4
-	ecall
+	li a1, 0
+	li a2, 0
+	li a3, 0xFF00
+	li a7, 104
+	jalr s11, 0 # Jumping to ECALL
 .end_macro
 
 .macro read_int()
@@ -57,8 +67,18 @@
 
 .macro print_int(%int)
 	mv a0, %int
-	li a7, 1
-	ecall
+	li a7, 101
+	li a1, 0
+	la t0, line_control
+	lw a2, 0(t0)
+	li a3, 0xFF00
+	jalr s11, 0 # Jumping to ECALL
+.end_macro
+
+.macro sleep(%time)
+	mv a0, %time
+	li a7, 132
+	jalr s11, 0
 .end_macro
 
 .macro A1(%player)

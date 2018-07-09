@@ -18,6 +18,7 @@ king_loop:
 	mv s0, s2
 	mv s1, s3
 	mv s6, zero
+
 	king_execute:
 	mv a1, s0
 	mv a2, s1
@@ -60,6 +61,9 @@ king_loop:
 	jal load_mv_options_x_axis
 	mv s6, a0
 	end_king_load:
+	la t0, line_control
+	li t1, 0
+	sw t1, 0(t0)
 	mv a0, s6
 	jal load_stop_option
 	mv a1, s3
