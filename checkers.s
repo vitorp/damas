@@ -211,7 +211,7 @@ setup:
 	sw ra, 0(sp)
 	jal PRINT_MENU	# Printar a tela de menu
 	jal MAIN_music	# coloca para tocar musica
-	#jal PERGUNTA_NIVEL
+	jal PERGUNTA_NIVEL
 	lw ra, 0(sp)
 	addi sp, sp, 4
 	ret
