@@ -22,14 +22,14 @@
 # Vazio = 0x00
 
 .data
-base:   .word 0x06060606
-linha1: .word 0x00060600
-linha2: .word 0x06000606
+base:   .word 0x00000000
+linha1: .word 0x00000600
+linha2: .word 0x00000000
 linha3: .word 0x00000000
 linha4: .word 0x00050000
-linha5: .word 0x00000006
-linha6: .word 0x04040400
-linha7: .word 0x04040404
+linha5: .word 0x00000000
+linha6: .word 0x00000000
+linha7: .word 0x00000000
 
 piece_x: .asciz "Digite a coordenada X da peça:\n"
 piece_y: .asciz "Digite a coordenada Y da peça:\n"
@@ -53,6 +53,7 @@ reselect_piece_text: .asciz " - Escolher outra peca\n"
 stop_king_text: .asciz " - Parar\n"
 error_text: .asciz " - Error\n"
 
+victory_text: .asciz " Parabens voce ganhou!\n"
 # For testing
 white_space: .asciz "-"
 brk: .asciz "\n"
@@ -63,12 +64,18 @@ enemy_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 .text
 	jal setup_step	# Printar a tela de menu
 	jal print_step
+	
 	j turn_loop # So that player starts playing
 	turn_reset:
 	j turn_loop
 	turn_draw:
+	jal upgrade_white_kings_step
+	jal find_black_piece_step
+	beq a0, zero, victory
 	jal print_step
 	jal enemy_turn
+	jal upgrade_black_kings_step
+	#jal find_white
 	li a0, 3000
 	li a7, 32
 	ecall
@@ -89,7 +96,7 @@ enemy_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 	beq a0, t0, valid_piece
 	print_string(invalid_piece)
 	j turn_loop
-	
+
 	valid_piece:
 	mv a0, s0
 	mv a1, s1
@@ -121,14 +128,16 @@ enemy_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 	jal king_loop_step
 	j turn_draw
 	
+	victory:
+	print_string(victory_text)
 	exit:
 	li a7, 10
 	ecall
 
 .include "mv_piece.s"
+
 .include "eat_piece.s"
 .include "enemy.s"
-
 setup_step:
 	j setup_step_2
 
@@ -141,10 +150,18 @@ select_piece_step:
 king_loop_step:
 	j king_loop
 
+find_black_piece_step:
+	j find_black_piece
+upgrade_white_kings_step:
+	j upgrade_black_kings
+upgrade_black_kings_step:
+	j upgrade_white_kings
+
 .include "select_play.s"
+
 setup_step_2:
 	j setup
-
+.include "checks.s"
 .include "king.s"
 .include "print_board.s"
 
