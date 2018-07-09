@@ -149,12 +149,10 @@ enemy_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 	j turn_start
 	
 	defeat:
-	la t4, defeat_text
-	print_string_reg(t4)
+	print_string(defeat_text)
 	j exit
 	victory:
-	la t4, victory_text
-	print_string_reg(t4)
+	print_string(victory_text)
 	exit:
 	li a7, 10
 	ecall

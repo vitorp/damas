@@ -391,8 +391,10 @@ select_piece:
 	mv a1, s1
 	jal in_board_human
 	bne a0, zero, piece_in_board
-	la t4, invalid_x_y
-	print_string_reg(t4)
+	print_string(invalid_x_y)
+	li t4, 3000
+	sleep(t4)
+	print_string(clear_line)
 	j reset_select_piece
 
 	piece_in_board:
@@ -400,8 +402,10 @@ select_piece:
 	mv a1, s1
 	jal valid_space
 	bne a0, zero, select_piece_succ
-	la t4, invalid_x_y
-	print_string_reg(t4)
+	print_string(invalid_x_y)
+	li t4, 3000
+	sleep(t4)
+	print_string(clear_line)
 	j reset_select_piece
 
 	# Here we know space is valid so we translate X to the right index
