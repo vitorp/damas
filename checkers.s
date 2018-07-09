@@ -22,14 +22,14 @@
 # Vazio = 0x00
 
 .data
-base:   .word 0x00000000
-linha1: .word 0x00000000
-linha2: .word 0x06060600
-linha3: .word 0x00050000
-linha4: .word 0x06060600
-linha5: .word 0x00000000
-linha6: .word 0x04000000
-linha7: .word 0x04000000
+base:   .word 0x06060606
+linha1: .word 0x06060606
+linha2: .word 0x06060606
+linha3: .word 0x00000000
+linha4: .word 0x00000000
+linha5: .word 0x04040404
+linha6: .word 0x04040404
+linha7: .word 0x04040404
 
 piece_x: .asciz "Digite a coordenada X:\n"
 piece_y: .asciz "Digite a coordenada Y:\n"
