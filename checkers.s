@@ -86,8 +86,6 @@ enemy_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 
 	jal enemy_turn
 	jal upgrade_black_kings_step
-	li t4, 3000
-	sleep(t4)
 	jal find_white_piece_step
 	beq a0, zero, defeat
 	turn_draw:

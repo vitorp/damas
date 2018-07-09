@@ -92,7 +92,7 @@ select_enemy:
 	mv a0, zero
 	li a7, 141
 	jalr s11, 0
-	bgt a0, t0, not_negative_select_enemy
+	bgt a0, zero, not_negative_select_enemy
 	li t0, -1
 	mul a0, a0, t0
 	not_negative_select_enemy:
@@ -112,8 +112,9 @@ select_enemy:
 # Return: a0 (Option Label)
 # Selects randomly an option
 select_option:
-	addi sp, sp, -4
+	addi sp, sp, -8
 	sw s0, 0(sp)
+	sw ra, 4(sp)
 
 	mv s0, a0 # s0 = Option count
 	mv a0, zero
@@ -132,5 +133,6 @@ select_option:
 	lw a0, 0(t0)
 
 	lw s0, 0(sp)
-	addi sp, sp, 4
+	lw ra, 4(sp)
+	addi sp, sp, 8
 	ret

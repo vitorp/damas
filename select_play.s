@@ -305,7 +305,12 @@ option_text_addr:
 
 	la t0, mv_down
 	bne a0, t0, not_mv_down
-	la a0, mv_down_text
+	andi t1, s0, 0x01
+	beq t1, zero, mv_down_even_row
+	la a0, mv_down_right_text
+	j end_option_text_addr
+	mv_down_even_row:
+	la a0, mv_down_left_text
 	j end_option_text_addr
 	not_mv_down:
 
