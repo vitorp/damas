@@ -92,3 +92,45 @@ find_black_piece:
 	lw s2, 8(sp)
 	addi sp, sp, 12
 	ret
+
+find_white_piece:
+	addi sp, sp, -12
+	sw s0, 0(sp)
+	sw s1, 4(sp)
+	sw s2, 8(sp)
+	
+	mv s0, zero
+	mv s1, zero
+	mv s2, zero
+	
+	find_white_piece_loop:
+	li t0, 4
+	blt s0, t0, no_row_reset_find_white
+	mv s0, zero
+	addi s1, s1, 1
+	li t0, 7
+	bgt s1, t0, not_found_white_piece
+	no_row_reset_find_white:
+	
+	load_piece(s0,s1)
+	mv t0, a0
+	li t1, WHITE
+	li t2, WHITE_KING
+	beq t0, t1, found_white_piece
+	beq t0, t2, found_white_piece
+	addi s0, s0, 1
+	j find_white_piece_loop
+	found_white_piece:
+	li s2, 1
+	j end_find_white_piece
+	not_found_white_piece:
+	li s2, 0
+
+	end_find_white_piece:
+	mv a0, s2
+
+	lw s0, 0(sp)
+	lw s1, 4(sp)
+	lw s2, 8(sp)
+	addi sp, sp, 12
+	ret

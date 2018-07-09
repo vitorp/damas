@@ -54,6 +54,7 @@ stop_king_text: .asciz " - Parar\n"
 error_text: .asciz " - Error\n"
 
 victory_text: .asciz " Parabens voce ganhou!\n"
+defeat_text: .asciz " Voce perdeu!\n"
 # For testing
 white_space: .asciz "-"
 brk: .asciz "\n"
@@ -75,11 +76,12 @@ enemy_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 	jal print_step
 	jal enemy_turn
 	jal upgrade_black_kings_step
-	#jal find_white
 	li a0, 3000
 	li a7, 32
 	ecall
 	jal print_step
+	jal find_white_piece_step
+	beq a0, zero, defeat
 	
 	turn_loop:
 	jal select_piece_step
@@ -128,6 +130,9 @@ enemy_options: .word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 	jal king_loop_step
 	j turn_draw
 	
+	defeat:
+	print_string(defeat_text)
+	j exit
 	victory:
 	print_string(victory_text)
 	exit:
@@ -152,6 +157,10 @@ king_loop_step:
 
 find_black_piece_step:
 	j find_black_piece
+
+find_white_piece_step:
+	j find_white_piece
+	
 upgrade_white_kings_step:
 	j upgrade_black_kings
 upgrade_black_kings_step:
