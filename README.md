@@ -20,3 +20,8 @@ A Micro ISA deste projeto assume suporte as seguintes instruções:
     - Selecionadas por suas coordenadas X Y
     - Lista de possiveis movimentações após seleção
 - Peças podem se tornar Damas.
+
+## Exemplos
+![menu](examples/menu.png "Menu")
+![seleção](examples/select_piece.png "seleção de peça")
+![Movimentação](examples/movement.png "Movimentação")
